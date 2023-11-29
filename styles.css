@@ -12,10 +12,9 @@ header{
     right: 0;
     top: 0;
     z-index: 1000;
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 33px 0%;
-    background: transparent;
+    
 }
 
