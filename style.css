@@ -1,0 +1,29 @@
+*{
+    padding: 0%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+header{
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 5px outset rgb(0, 0, 0);
+    background-color: rgb(92, 73, 136); 
+    text-align: center
+
+}
+
+h3{
+    font-style: italic;
+    font-family: 'Courier New', Courier, monospace;
+    color:crimson;
+    background-color: aquamarine;
+
+
+}
