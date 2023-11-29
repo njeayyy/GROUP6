@@ -95,6 +95,20 @@ li a {
 
 
 
+.site-header {
+   
+    transition: box-shadow 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out; 
+}
+
+.site-header.scrolled {
+    background-color: var(--clr-light);
+    
+
+    box-shadow: 0 1px 6px 0 rgb(32 33 36 / 10%);
+}
+
+
 
 .first-section {
    
@@ -158,6 +172,17 @@ li a {
     color: #000;
     letter-spacing: 1px;
     line-height: 1.5;
+}
+
+
+
+.second-section {
+   
+    height: 100vh;
+    padding: 40px 200px;
+   background-color: red;
+   
+
 }
 
 
