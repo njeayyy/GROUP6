@@ -16,5 +16,8 @@ header{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border: 5px outset rgb(0, 0, 0);
+    background-color: rgb(92, 73, 136); 
+    text-align: center
 
 }
