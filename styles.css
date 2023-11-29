@@ -1,4 +1,36 @@
-*{
+*,
+*::before,
+*::after{
+    box-sizing: border-box;
+}
+
+
+
+:root{
+    
+ 
+
+
+    --clr-light: #FFF;
+    --clr-dark: #000;
+
+
+    --fw-light: 300;
+    --fw-regular: 400;
+    --fw-medium: 500;
+    --fw-semibold: 600;
+    --fw-bold: 700;
+
+    
+
+}
+
+
+
+
+
+
+body {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -17,8 +49,116 @@ header{
     align-items: center;
     justify-content: space-between;
     padding: 33px 9%;
-    background: red;
 
     
 }
+
+
+h3 {
+    font-size: 21px;
+
+}
+
+h3 a {
+
+    text-decoration: none;
+    color: #000;
+
+
+}
+
+
+
+ul {
+    display: flex;
+    align-items: center;
+    gap: 56px;
+}
+
+li {
+
+    list-style: none;
+
+}
+
+li a {
+    text-decoration: none;
+    color: #000;
+ 
+    
+}
+
+
+.bx-menu {
+    font-size: 24px;
+}
+
+
+
+
+.first-section {
+   
+    height: 100vh;
+    padding: 40px 200px;
+    background-image: linear-gradient(90deg, #a1c4fd 10%, #c2e9fb 90%);
+    display: flex;
+    align-items: center;
+
+
+    gap: 80px;
+
+}
+
+
+.first-section img {
+    height: 400px;
+    width: 400px;
+}
+
+
+.content-text h1, p {
+    margin: 0;
+}
+
+.content-text {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+
+.content-text h1 {
+    font-size: 48px;
+    font-weight: 800;
+    color: #FFF;
+
+}
+
+
+.content-text p {
+    font-size: 20px;
+    font-weight: var(--fw-regular);
+    color: #FFF;
+}
+
+
+
+.content-text button {
+    border: none;
+    outline: none;
+    width: 200px;
+    padding: 24px 36px;
+    border-radius: 50px;
+}
+
+
+.content-text a {
+    text-decoration: none;
+    font-weight: 800;
+    color: #000;
+    letter-spacing: 1px;
+    line-height: 1.5;
+}
+
+
 
