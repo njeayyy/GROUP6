@@ -60,11 +60,11 @@
               </form>
               <form id="signup-form" style="display: none;">
                 <div class="form-group">
-                  <label for="newUsername">New Username:</label>
+                  <label for="newUsername">Username:</label>
                   <input type="text" id="newUsername" name="newUsername" required>
                 </div>
                 <div class="form-group">
-                  <label for="newPassword">New Password:</label>
+                  <label for="newPassword">Password:</label>
                   <input type="password" id="newPassword" name="newPassword" required>
                 </div>
                 <div class="form-group">
