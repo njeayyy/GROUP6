@@ -49,20 +49,20 @@ header{
     align-items: center;
     justify-content: space-between;
     padding: 33px 9%;
+    
 
     
 }
 
-
 h3 {
     font-size: 21px;
-
+    
 }
 
 h3 a {
 
     text-decoration: none;
-    color: #000;
+    color: #fff;
 
 
 }
@@ -73,6 +73,7 @@ ul {
     display: flex;
     align-items: center;
     gap: 56px;
+  
 }
 
 li {
@@ -83,7 +84,9 @@ li {
 
 li a {
     text-decoration: none;
-    color: #000;
+    color: #fff;
+    font-weight: 500;
+
  
     
 }
@@ -102,7 +105,7 @@ li a {
 }
 
 .site-header.scrolled {
-    background-color: var(--clr-light);
+    background-color: #000000;
     
 
     box-shadow: 0 1px 6px 0 rgb(32 33 36 / 10%);
@@ -114,7 +117,7 @@ li a {
    
     height: 100vh;
     padding: 40px 200px;
-    background-image: linear-gradient(90deg, #a1c4fd 10%, #c2e9fb 90%);
+    background-color: rgb(118, 39, 80);
     display: flex;
     align-items: center;
 
@@ -144,7 +147,7 @@ li a {
 .content-text h1 {
     font-size: 48px;
     font-weight: 800;
-    color: #FFF;
+    color: #ffffff;
 
 }
 
@@ -152,7 +155,7 @@ li a {
 .content-text p {
     font-size: 20px;
     font-weight: var(--fw-regular);
-    color: #FFF;
+    color: #ffffff;
 }
 
 
@@ -178,10 +181,10 @@ li a {
 
 .second-section {
    
-    height: 100vh;
+    height: 86vh;
     padding: 40px 200px;
-   background-color: red;
-   
+   background-color: rgb(137, 119, 203);
+
 
 }
 
