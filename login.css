@@ -186,26 +186,23 @@ li a {
 }
 
 
-
-
-
-  .login-container {
-    margin: auto;
+.auth-container {
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     width: 300px;
+    margin: auto;
   }
 
-  .login-header {
+  .auth-header {
     background-color: #3498db;
     color: #ffffff;
     padding: 20px;
     text-align: center;
   }
 
-  .login-form {
+  .auth-form {
     padding: 20px;
   }
 
@@ -233,4 +230,17 @@ li a {
     border-radius: 4px;
     cursor: pointer;
     width: 100%;
+  }
+
+  .switch-form {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .switch-form button {
+    background-color: #2ecc71;
+    color: #ffffff;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
   }
