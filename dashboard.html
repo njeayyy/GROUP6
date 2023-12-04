@@ -34,7 +34,7 @@
         
     </header>
 
-
+    <!-- 1st - home -->
 
     <section id="first-section" class="first-section">
 
@@ -57,12 +57,55 @@
 
                 </div>
 
-          
-
 
     </section>
 
-    <section id="second-section" class="second-section">
+    <!-- 3rd - login -->
+    
+    <section id="third-section" class="second-section">
+
+        <div class="auth-container">
+            <div class="auth-header">
+              <h2>Login</h2>
+            </div>
+            <div class="auth-form">
+              <form id="login-form">
+                <div class="form-group">
+                  <label for="username">Username:</label>
+                  <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                  <label for="password">Password:</label>
+                  <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                  <button type="submit">Login</button>
+                </div>
+              </form>
+              <form id="signup-form" style="display: none;">
+                <div class="form-group">
+                  <label for="newUsername">New Username:</label>
+                  <input type="text" id="newUsername" name="newUsername" required>
+                </div>
+                <div class="form-group">
+                  <label for="newPassword">New Password:</label>
+                  <input type="password" id="newPassword" name="newPassword" required>
+                </div>
+                <div class="form-group">
+                  <button type="submit">Sign Up</button>
+                </div>
+              </form>
+            </div>
+            <div class="switch-form">
+              <button onclick="toggleForm()">Switch to Sign Up</button>
+            </div>
+          </div>
+    
+    </section>
+
+    <!-- 4th - contact us -->
+
+    <section id="fourth-section" class="second-section">
 
         
 
