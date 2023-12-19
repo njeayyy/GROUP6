@@ -37,6 +37,15 @@ body {
     font-family: 'Poppins', sans-serif;
     list-style: none;
     text-decoration: none;
+    background-repeat: no-repeat;
+    
+    background:
+  linear-gradient(
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.5)
+  ),
+  url('https://img.freepik.com/premium-vector/group-happy-elderly-people-isolated-white-background-vector-illustration-flat-style_508684-136.jpg');
+   
 }
 
 header{
@@ -193,12 +202,13 @@ li a {
     overflow: hidden;
     width: 300px;
     margin: auto;
+    padding-bottom: 24px;
   }
 
   .auth-header {
     background-color: rgb(118, 39, 80);
     color: #ffffff;
-    padding: 20px;
+    padding: 4px;
     text-align: center;
   }
 

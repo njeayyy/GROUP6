@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SENIOR CITIZEN INFORMATION SYSTEM</title>
-    <link rel="stylesheet" href="info.css">
+    <link rel="stylesheet" href="style/info.css">
 
 
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -23,11 +23,12 @@
         <nav>
             <ul >
                 <li><a  id="li-a" href="dashboard.html">Home</a></li>
-                <li><a  id="li-a"  href="#">About</a></li>
-                <li><a  id="li-a"  href="login.html">Login</a></li>
-                <li><a  id="li-a"  href="#">Contact</a></li>
+                <li><a  id="li-a"  href="dashboard.html">About</a></li>
+                <li><a  id="li-a"  href="dashboard.html">Contact</a></li>
+                <li><a  id="li-a"  href="info.php">Info</a></li>
             </ul> 
         </nav>
+
 
         <i class='bx bx-menu'></i>
         

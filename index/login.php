@@ -1,3 +1,53 @@
+<?php
+
+
+// Include your database connection file
+include('../session/db.php');
+
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
+    // Fetch user input
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Prepare and execute the SQL statement
+    $stmt = $conn->prepare("SELECT Email, password FROM users WHERE Email = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->store_result();
+
+    // Check if a user with the given username exists
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($dbUsername, $dbPassword);
+        $stmt->fetch();
+
+        // Verify the entered password against the hashed password in the database
+        if (password_verify($password, $dbPassword)) {
+            // Password is correct, set up a session or redirect as needed
+            session_start();
+            $_SESSION['username'] = $dbUsername;
+            header("Location: ../dashboard/dashboard.html"); // Replace "welcome.php" with your desired page
+            exit();
+        } else {
+            // Password is incorrect
+            echo "<script>alert('Incorrect password. Please try again.');</script>";
+        }
+    } else {
+        // User with the given username does not exist
+        echo "<script>alert('User not found. Please check your username.');</script>";
+    }
+
+    // Close the statement and database connection
+    $stmt->close();
+    $conn->close();
+}
+
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,23 +68,7 @@
     
 </head>
 <body>
-    <header class="site-header">
-        <h3><a href="#" class="logo">Golden Care Hub</a></h3>
-        <nav>
-            <ul>
-                <li><a href="dashboard.html">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="#">Contact</a></li>
-                
-            </ul> 
-        </nav>
-
-        <i class='bx bx-menu'></i>
-        
-        
-    </header>
-
+   
 
 
     <section class="first-section">
@@ -45,7 +79,7 @@
               <h2>Login</h2>
             </div>
             <div class="auth-form">
-              <form id="login-form">
+            <form id="login-form" method="post" action="">
                 <div class="form-group">
                   <label for="username">Username:</label>
                   <input type="text" id="username" name="username" required>
@@ -58,28 +92,15 @@
                   <button type="submit">Login</button>
                 </div>
               </form>
-              <form id="signup-form" style="display: none;">
-                <div class="form-group">
-                  <label for="newUsername">Username:</label>
-                  <input type="text" id="newUsername" name="newUsername" required>
-                </div>
-                <div class="form-group">
-                  <label for="newPassword">Password:</label>
-                  <input type="password" id="newPassword" name="newPassword" required>
-                </div>
-                <div class="form-group">
-                  <button type="submit">Sign Up</button>
-                </div>
-              </form>
+           
             </div>
             <div class="switch-form">
-              <button onclick="toggleForm()">Switch to Sign Up</button>
+            <a href="signup.php"> <button>Switch to Sign Up</button> </a>
             </div>
           </div>
 
     </section>
 
-    <script src="login.js"></script>
 
 </body>
 </html>

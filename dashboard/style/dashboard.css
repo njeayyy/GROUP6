@@ -193,6 +193,72 @@ li a {
     gap: 80px;
 
 }
+
+
+
+.heading h1{
+    font-size: 50px;
+    color: aliceblue;
+    margin-bottom: 25px;
+    position: relative;
+    font: bold;
+}
+.heading h1::after{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    display: block;
+    margin: 0 auto;
+    background-color: #58c77d;
+}
+.heading p{
+    font-size: 18px;
+    color: #050404;
+    margin-bottom: 35px;
+}
+.container{
+    width: 90%;
+    margin: 0 auto;
+    padding: 10px 20px;
+}
+.about{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.about-img{
+    flex: 1;
+    margin-right: 40px;
+    overflow: hidden;
+}
+.about-img img{
+    max-width: 100%;
+    height: 500px;
+    display: block;
+    transition: 0.5s ease;
+}
+.about-content{
+    flex: 1;
+}
+.about-content h2{
+    font-size: 23px;
+    margin-bottom: 15px;
+    color: #050404;
+}
+.about-content p{
+    font-size: 18px;
+    line-height: 1.5;
+    color: #050404;
+}
+
+
+
+
+
+
+
 /*3rd-login*/
 .auth-container {
     background-color: #ffffff;
@@ -347,3 +413,14 @@ input[type="submit"]:hover {
 
 
 
+
+
+.Login-btn {
+    padding: 12px 24px;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 56px;
+    background-color: white;
+    color: #000;
+
+}
