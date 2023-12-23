@@ -1,5 +1,4 @@
 <?php
-
 // Include your database connection file
 include('../session/db.php');
 
@@ -22,13 +21,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     // Prepare and execute the SQL statement
-    $stmt = $conn->prepare("INSERT INTO users (First_name, Last_name, Email, Password) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $firstName, $lastName, $username, $hashedPassword);
+    $stmt = $conn->prepare("INSERT INTO users (First_name, Last_name, Email, Password, Role) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $firstName, $lastName, $username, $hashedPassword, $role);
+
+    // Set the value of $role to 'User'
+    $role = 'User';
 
     // Check if the statement is executed successfully
     if ($stmt->execute()) {
         // Registration successful
         echo "<script>alert('Registration successful!');</script>";
+
+        // Redirect to another page to avoid form resubmission
+        header("Location: login.php");
+        exit();
     } else {
         // Registration failed
         echo "<script>alert('Error during registration: " . $stmt->error . "');</script>";
@@ -38,9 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->close();
     $conn->close();
 }
-
 ?>
-
 
 
 

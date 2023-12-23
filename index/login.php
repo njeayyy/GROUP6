@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Password is correct, set up a session or redirect as needed
             session_start();
             $_SESSION['username'] = $dbUsername;
-            header("Location: ../dashboard/dashboard.html"); // Replace "welcome.php" with your desired page
+            header("Location: ../admin/dashboard.php"); // Replace "welcome.php" with your desired page
             exit();
         } else {
             // Password is incorrect
