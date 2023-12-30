@@ -1,6 +1,5 @@
 <?php
 
-
 // Include your database connection file
 include('../session/db.php');
 
@@ -12,22 +11,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
 
     // Prepare and execute the SQL statement
-    $stmt = $conn->prepare("SELECT Email, password FROM users WHERE Email = ?");
+    $stmt = $conn->prepare("SELECT Email, password, Role FROM users WHERE Email = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $stmt->store_result();
 
     // Check if a user with the given username exists
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($dbUsername, $dbPassword);
+        $stmt->bind_result($dbUsername, $dbPassword, $userRole);
         $stmt->fetch();
 
         // Verify the entered password against the hashed password in the database
         if (password_verify($password, $dbPassword)) {
-            // Password is correct, set up a session or redirect as needed
+            // Password is correct, set up a session or redirect based on the role
             session_start();
+
+            // Set session variables
             $_SESSION['username'] = $dbUsername;
-            header("Location: ../admin/dashboard.php"); // Replace "welcome.php" with your desired page
+            $_SESSION['role'] = $userRole;
+
+            // Redirect based on the role
+            if ($userRole == 'Admin') {
+                header("Location: ../admin/dashboard.php");
+            } elseif ($userRole == 'User') {
+                header("Location: ../dashboard/dashboard.html");
+            } else {
+                // Handle other roles as needed
+                echo "<script>alert('Unknown role.');</script>";
+            }
+
             exit();
         } else {
             // Password is incorrect
@@ -44,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 ?>
+
 
 
 

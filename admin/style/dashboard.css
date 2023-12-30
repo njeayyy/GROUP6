@@ -53,6 +53,7 @@ body {
 
 
 
+
 }
 
 .sidebar {
@@ -188,7 +189,6 @@ transition: 0.5s;
     
     
     
-    
     li a i  {
     transition: all 0.5s ease-in-out;
    
@@ -196,22 +196,13 @@ transition: 0.5s;
     
     li a span  {
      transition: all 0.5s ease-in-out;
-    ;
+    
     
     }
-    
-    li:hover a i  {
-       color: var(--clr-light);
-    }
-    
     
 
-    
-    
-    li:hover a span  {
-        color: var(--clr-light);
-    }
-    
+
+  
 
 
     
@@ -231,17 +222,40 @@ transition: 0.5s;
     }
     
     .dropdown-container a {
-    color: var(--clr-nav-bar-color);
+    color: var(--clr-text);
     font-size: 1rem;
     font-weight: var(--fw-medium);
     transition: all 0.5s ease-in-out;
     margin-bottom: 24px;
     }
-    
-    .dropdown-container a:hover {
-    color: var(--clr-light);
-    }
-    
+
+
+
+    li a i  {
+        transition: all 0.5s ease-in-out;
+       
+        }
+        
+        li a i  {
+         transition: all 0.5s ease-in-out;
+      
+        
+        }
+        
+        li:hover a i  {
+            color: var(--clr-light);
+        }
+        
+        
+     
+        
+        
+        li:hover a span  {
+            color: var(--clr-light);
+        }
+        
+        
+
     
     
     li button i  {
@@ -265,6 +279,13 @@ transition: 0.5s;
     
     li:hover button span  {
         color: var(--clr-light);
+    }
+
+
+     
+
+    .dropdown-container a:hover {
+       color: var(--clr-light);
     }
     
     
@@ -351,3 +372,303 @@ transition: 0.5s;
         color: var(--clr-light);
         font-size: 24px;
     }
+
+
+
+
+    
+    .body--wrapper {
+     
+        padding: 16px 40px;
+      
+
+    }
+
+
+/* DASHBOARD CSS */
+
+
+    .info-wrap {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap:24px;
+    }
+
+
+    .info-container {
+   
+        padding: 16px;
+        border-radius: 4px;
+    }
+
+    .info-container:nth-child(1) {
+        background-color: #4977E7;
+    }
+
+
+    .info-container:nth-child(2) {
+        background-color: #7CC5FA;
+    }
+
+
+    .info-container:nth-child(3) {
+        background-color: #9E71CE;
+    }
+
+
+    .info-container:nth-child(4) {
+        background-color: #86D1B3;
+    }
+
+
+    .info-container p, a {
+        color: white;
+    }
+
+
+    .info-maintext {
+            font-size: 24px;
+            font-weight: var(--fw-semibold);
+    }
+
+
+    /* DASHBOARD CSS */
+
+
+
+
+    /* CITIZENS CSS */
+
+
+        .rectangle {
+            border: 1px solid #ccc;
+            padding: 24px;
+        }
+
+        .table-title {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+            position: relative;
+        }
+
+        .table-title p {
+            font-size: 24px;
+            font-weight: var(--fw-medium);
+        }
+
+        .add-member {
+        
+            font-weight: var(--fw-medium);
+
+            text-decoration: none;
+            background-color: var(--clr-primary-color);
+            padding: 12px;
+            color: white;
+            border-radius: 4px;
+        }
+
+
+        .import-member, .export-member {
+            text-decoration: none;
+            color: var(--clr-text);
+            border-radius: 4px;
+            padding: 12px;
+            border: 1px solid #Ccc;
+        }
+
+        .table-title-info {
+            position: absolute;
+            right: 0;
+        }
+
+
+        .table-title-info p {
+            font-size: 1rem;
+            margin: 0;
+            color: var(--clr-text-lessopacity);
+            text-align: end;
+        }
+
+        .table-title-info span {
+            font-size: 1rem;
+            margin: 0;
+            color: var(--clr-text-lessopacity);
+            text-align: end;
+        }
+    
+
+        .button-action {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+      .view-button, .edit-button {
+       display: flex;
+       align-items: center;
+       gap: 4px;
+        padding: 8px;
+        border-radius: 4px;
+        text-decoration: none;
+        color: white;
+        background-color: var(--clr-primary-color);
+      }
+
+
+      .delete-button {
+        display: flex;
+       align-items: center;
+        border: none;
+        outline: none;
+        gap: 4px;
+        padding: 8px;
+        border-radius: 4px;
+        text-decoration: none;
+        color: white;
+        background-color: var(--clr-primary-color);
+        font-size: 1rem;
+        font-family: 'Poppins', sans-serif;
+
+      }
+
+
+
+
+    /* CITIZENS CSS */   
+    
+    
+    /* ADD CITIZEN CSS */
+
+    .AddMember-title {
+        font-size: 24px;
+        font-weight: var(--fw-medium);
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .input-box {
+        width: 600px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .input-box input {
+     
+        padding: 12px;
+    width: 400px;
+   
+
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .Save-Btn {
+        cursor: pointer;
+        border-radius: 4px;
+        width: 150px;
+        border: none;
+        outline: none;
+        padding: 12px;
+        background-color: var(--clr-primary-color);
+        color: white;
+
+        font-family: 'Poppins', sans-serif;
+    }
+
+
+
+
+    
+.success-message {
+
+ 
+    display: none;
+    position: absolute;
+    bottom: 20px;
+    color: #270;
+    background-color: #DFF2BF;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+
+.errorMessage {
+
+    display: none;
+    position: absolute;
+    bottom: 20px;
+    color: #D8000C;
+    background-color: #FFBABA;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+
+.errorMessage i {
+    color: #D8000C;
+
+}
+
+
+
+
+
+
+
+    /* ADD CITIZEN CSS */
+
+
+
+
+    /* USERS LIST CSS */    
+
+
+
+
+
+
+/* ADD SERVICES CSS */
+
+
+.service-box {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    
+   
+}
+
+.service-box input {
+ 
+    padding: 12px;
+    width: 100%;
+    margin-top: 16px;
+
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.service-box textarea {
+    padding: 12px;
+    width: 100%;
+    margin-top: 16px;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
+
+/* ADD SERVICES CSS */
+
+/* SERVICES LIST CSS */
+
+
+
+
+/* SERVICES LIST CSS */
