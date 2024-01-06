@@ -15,6 +15,13 @@ if (!$result) {
 
 
 
+// If you need additional user information, you can fetch it from the session
+$userID = $_SESSION['user_id'];
+$lastname = $_SESSION['Last_name'];
+$firstName = $_SESSION['First_name'];
+$dbUsername = $_SESSION['email'];
+
+$fullName = $lastname . ' ' . $firstName;
 
 
 
@@ -264,16 +271,14 @@ $activeMembers = $activeCountRow['activeCount'];
 
             <div class="profile">
 
-               <button class="profile-image">
-
-               </button>
+            <img src="" alt="" class="profile-image">
 
                <div class="profile-name">
 
-                        <p>Customer Name</p>
-                        <span>Customer Email</span>
+                <p><?php echo $fullName; ?></p>
+                <span><?php echo $dbUsername; ?></span>
 
-               </div>
+                </div>
 
 
                <i class="ri-arrow-down-s-fill"></i>

@@ -1,3 +1,34 @@
+<?php
+// Include the session manager
+
+require '../session/db.php';
+
+
+
+session_start();
+
+// Check if the user is not logged in
+if (!isset($_SESSION['user_id'])) {
+    // Redirect the user to the login page or another page as needed
+    header("Location: ../index/login.php");
+    exit();
+}
+
+// If you need additional user information, you can fetch it from the session
+$userID = $_SESSION['user_id'];
+$lastname = $_SESSION['Last_name'];
+$firstName = $_SESSION['First_name'];
+$dbUsername = $_SESSION['email'];
+
+$fullName = $lastname . ' ' . $firstName;
+
+
+
+
+
+?>
+
+
 
 
 <!DOCTYPE html>
@@ -114,6 +145,26 @@
                     </a>
                 </li>
 
+
+
+                
+
+                <li>    
+                    <button class="dropdown-btn">
+                    <i class="ri-service-line"></i>
+                        <span>Services</span>
+                        <i id="chevron-down" class='bx bxs-chevron-down'></i>
+                    </button>
+
+                    <div class="dropdown-container">
+                            <a href="services-list.php">List of Services</a>
+                            <a href="add-services.php">Add Services </a>
+                          
+
+                    </div>
+
+                </li>
+
                 
 
 
@@ -152,17 +203,15 @@
             </div>
 
             <div class="profile">
+            <img src="" alt="" class="profile-image">
 
-               <button class="profile-image">
+            <div class="profile-name">
 
-               </button>
+                        <p><?php echo $fullName; ?></p>
+                        <span><?php echo $dbUsername; ?></span>
 
-               <div class="profile-name">
+            </div>
 
-                        <p>Customer Name</p>
-                        <span>Customer Email</span>
-
-               </div>
 
 
                <i class="ri-arrow-down-s-fill"></i>

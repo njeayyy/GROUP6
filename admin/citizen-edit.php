@@ -236,27 +236,9 @@ mysqli_close($conn);
             <i class="ri-menu-2-fill"></i>
 
                     
-            </div>
+            </div>  
 
-            <div class="profile">
-
-               <button class="profile-image">
-
-               </button>
-
-               <div class="profile-name">
-
-                        <p>Customer Name</p>
-                        <span>Customer Email</span>
-
-               </div>
-
-
-               <i class="ri-arrow-down-s-fill"></i>
-
-
-            
-            </div>
+          
         
         
         

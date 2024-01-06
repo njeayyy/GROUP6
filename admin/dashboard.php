@@ -78,7 +78,7 @@ $pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
 
 
 
-<div id="sidebar" class="sidebar">
+    <div id="sidebar" class="sidebar">
         <div class="logo">
             <img src="#" alt="">
 
@@ -209,7 +209,7 @@ $pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
                     <div class="dropdown-content">
 
                         <div class="a-content">
-                                <a href="#">Edit Profile</a>
+                                <a href="profile.php">Edit Profile</a>
                                 <a href="#">Settings</a>
                                 <a href="#">Help and Support</a>
 

@@ -1,43 +1,72 @@
-<?php
-session_start();
-require '../session/db.php';
+    <?php
+    // Include the session manager
 
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
-    $serviceTitle = $_POST['ServiceTitle'];
-    $serviceDescription = $_POST['ServiceDescription'];
+    require '../session/db.php';
 
-    // Prepare the SQL statement
-    $sql = "INSERT INTO services (Service_Title, Description, Date_Created) VALUES (?, ?, NOW())";
 
-    // Create a prepared statement
-    $stmt = $conn->prepare($sql);
 
-    // Bind the parameters
-    $stmt->bind_param("ss", $serviceTitle, $serviceDescription);
+    session_start();
 
-    // Execute the statement
-    if ($stmt->execute()) {
-        // Set success message in the session
-        $_SESSION['successMessage'] = "Service added successfully";
-
-        header("Location: add-services.php");
+    // Check if the user is not logged in
+    if (!isset($_SESSION['user_id'])) {
+        // Redirect the user to the login page or another page as needed
+        header("Location: ../index/login.php");
         exit();
-    } else {
-        // Set error message in the session
-        $_SESSION['errorMessage'] = "Error: " . $stmt->error;
+    }   
+
+    // If you need additional user information, you can fetch it from the session
+    $userID = $_SESSION['user_id'];
+    $lastname = $_SESSION['Last_name'];
+    $firstName = $_SESSION['First_name'];
+    $dbUsername = $_SESSION['email'];
+    $fullName = $lastname . ' ' . $firstName;
+
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_btn'])) {
+        // Get the new values from the form
+        $newFirstName = $_POST['firstname'];
+        $newLastName = $_POST['lastname'];
+
+
+        require '../session/db.php';
+    
+        // Validate and update the user's information in the database
+        if (!empty($newFirstName) && !empty($newLastName)) {
+            // Connect to your database (replace with your database credentials)
+     
+    
+            // Update user information in the database
+            $updateQuery = "UPDATE users SET First_name=?, Last_name=? WHERE user_id=?";
+            $stmt = $conn->prepare($updateQuery);
+            $stmt->bind_param("sss", $newFirstName, $newLastName, $userID);
+            
+            if ($stmt->execute()) {
+                // Update session variables with new values
+                $_SESSION['First_name'] = $newFirstName;
+                $_SESSION['Last_name'] = $newLastName;
+    
+                // Set success message
+                $_SESSION['successMessage'] = "Profile updated successfully!";
+            } else {
+                // Set error message
+                $_SESSION['errorMessage'] = "Error updating profile. Please try again.";
+            }
+    
+            // Close the database connection
+            $stmt->close();
+            $conn->close();
+        } else {
+            // Set error message if required fields are empty
+            $_SESSION['errorMessage'] = "First name and last name are required.";
+        }
+    
+        // Redirect back to the same page to clear the form data from the URL
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
     }
+    ?>
 
-    // Close the statement
-    $stmt->close();
-}
-
-// Close the database connection
-$conn->close();
-?>
-
-
+    
 
 
 
@@ -52,7 +81,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SENIOR CITIZEN INFORMATION SYSTEM</title>
+    <title>USER DASHBOARD</title>
     <link rel="stylesheet" href="style/dashboard.css">
 
 
@@ -64,47 +93,10 @@ $conn->close();
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-
-
-    <!-- Include jQuery library -->
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-
-<!-- Include DataTables JS -->
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-
-<!-- Include DataTables CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-
-<!-- Your other styles and scripts -->
-
-<script defer>
-    $(document).ready(function () {
-        // Initialize DataTable with additional options
-        $('#myTable').DataTable({
-            "lengthMenu": [10, 25, 50, 75, 100],
-            "pageLength": 10,
-            "pagingType": "full_numbers",
-            "language": {
-                "lengthMenu": "Show _MENU_ entries",
-                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                "infoEmpty": "Showing 0 to 0 of 0 entries",
-                "infoFiltered": "(filtered from _MAX_ total entries)",
-                "paginate": {
-                    "first": "First",
-                    "last": "Last",
-                    "next": "Next",
-                    "previous": "Previous"
-                }
-            }
-        });
-    });
-
-    /* Other scripts and functions */
-</script>
     
 </head>
 <body>
+
 
 
 
@@ -207,18 +199,53 @@ $conn->close();
 
 
 
-
 <div class="main--content">
 
         <div class="header--wrapper">
         
-            <div class="menu-search">
-            
-            <i class="ri-menu-2-fill"></i>
+                <div class="menu-search">
+                
+                    <i class="ri-menu-2-fill"></i>
 
+                        
+                </div>
+
+
+
+                <div class="profile">
+
+                    <img src="" alt="" class="profile-image">
+
+                    <div class="profile-name">
+
+                                <p><?php echo $fullName; ?></p>
+                                <span><?php echo $dbUsername; ?></span>
+
+                    </div>
                     
-            </div>
 
+
+
+                    <button class="dropdown-btn">  <i class="ri-arrow-down-s-fill"></i>   </button>  
+
+
+                    <div class="dropdown-content">
+
+                        <div class="a-content">
+                                <a href="#">Edit Profile</a>
+                                <a href="#">Settings</a>
+                                <a href="#">Help and Support</a>
+
+                        </div>
+
+                    </div>
+
+
+
+          
+                    
+                </div>
+        
         
         
         </div>
@@ -227,44 +254,45 @@ $conn->close();
 
         <div class="body--wrapper">
 
-                <p class="AddMember-title">Add Services</p>
+                <h1>Profile</h1>
+
 
                 <form action="" method="post">
 
                     <div class="service-box">
-                        <label for="ServiceTitle">Service Title: </label>
-                        <input type="text" name="ServiceTitle" placeholder="Title" required>
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" value="<?php echo $dbUsername; ?>" required readonly>
                     </div>
 
-                    <div class="service-box">
-                        <label for="ServiceDescription">Service Description: </label>
-                       <textarea name="ServiceDescription" id="" cols="30" rows="10"></textarea>
-                    </div>
 
                     
-              
+                    <div class="service-box">
+                        <label for="firstname">First Name:</label>
+                        <input type="text" name="firstname" value="<?php echo $firstName; ?>" required>
+                    </div>
 
-
-                    <button type="submit" class="Save-Btn">Add</button>
-
-
-
-
-
-
-                </form>
+                        <div class="service-box">
+                        <label for="lastname">Last Name:</label>
+                        <input type="text" name="lastname" value="<?php echo $lastname; ?>" required>
+                    </div>
 
 
 
 
-                <div id="successMessage" class="success-message"><i id="bx-check" class='bx bx-check'></i></div>
+                    <button type="submit" name="save_btn" class="Save-Btn">Save</button>
 
-                <div id="errorMessage" class="errorMessage"><i id="bx-error" class='bx bx-x-circle'></i></div>
-
-       
+                    </form>
 
 
-           
+
+<div id="successMessage" class="success-message"><i id="bx-check" class='bx bx-check'></i></div>
+
+<div id="errorMessage" class="errorMessage"><i id="bx-error" class='bx bx-x-circle'></i></div>
+
+
+
+
+            
 
 
 
@@ -303,9 +331,6 @@ $conn->close();
                 }
 
 
-
-
-
                 
           
     // Check if the success parameter is present in the URL
@@ -334,9 +359,6 @@ $conn->close();
         // Remove the session variable to avoid displaying the message on subsequent page loads
         <?php unset($_SESSION['errorMessage']); ?>
     }
-
-
-
 
 
 
