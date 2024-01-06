@@ -3,8 +3,9 @@ session_start();
 require '../session/db.php';
 
 // Fetch data from the database
-$query = "SELECT * FROM senior_table";
+$query = "SELECT * FROM users";
 $result = mysqli_query($conn, $query);
+
 
 
 // Check for errors in query execution
@@ -15,11 +16,13 @@ if (!$result) {
 
 
 
+
+
 // Get the total number of members
 $totalMembers = mysqli_num_rows($result);
 
 // Get the count of active members
-$activeMembersQuery = "SELECT COUNT(*) AS activeCount FROM senior_table WHERE status = 'Active'";
+$activeMembersQuery = "SELECT COUNT(*) AS activeCount FROM users";
 $activeMembersResult = mysqli_query($conn, $activeMembersQuery);
 
 // Check for errors in the active members query execution
@@ -29,7 +32,6 @@ if (!$activeMembersResult) {
 
 $activeCountRow = mysqli_fetch_assoc($activeMembersResult);
 $activeMembers = $activeCountRow['activeCount'];
-
 ?>
 
 
@@ -53,8 +55,7 @@ $activeMembers = $activeCountRow['activeCount'];
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 
-
-    <!-- Include jQuery library -->
+<!-- Include jQuery library -->
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 
 <!-- Include DataTables JS -->
@@ -63,9 +64,10 @@ $activeMembers = $activeCountRow['activeCount'];
 <!-- Include DataTables CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 
-<!-- Your other styles and scripts -->
+<!-- Include xlsx library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
 
-<script defer>
+<script>
     $(document).ready(function () {
         // Initialize DataTable with additional options
         $('#myTable').DataTable({
@@ -85,11 +87,62 @@ $activeMembers = $activeCountRow['activeCount'];
                 }
             }
         });
+
+
+        $('.delete-button').click(function () {
+      // Get the senior ID from the button's data attribute
+      var userID = $(this).data('userID');
+
+      // Show a confirmation dialog
+      var confirmDelete = confirm('Are you sure you want to delete this senior citizen?');
+
+      if (confirmDelete) {
+        // Send an AJAX request to delete the senior from the database
+        $.ajax({
+          type: 'POST',
+          url: 'delete-senior.php', // Create a PHP script for deleting seniors
+          data: { user_id: userID },
+          success: function (response) {
+            // Handle the response (e.g., reload the page or update the table)
+            location.reload(); // Reload the page for simplicity; you can implement a more sophisticated update logic
+          },
+          error: function (xhr, status, error) {
+            console.error(xhr.responseText);
+          }
+        });
+      }
     });
 
-    /* Other scripts and functions */
+        $('#export-members').click(function () {
+            // Get the table headers
+            var tableHeaders = [];
+            $('#myTable thead th').each(function () {
+                tableHeaders.push($(this).text());
+            });
+
+            // Get the table data excluding the action column
+            var tableData = [];
+            $('#myTable tbody tr').each(function () {
+                var rowData = [];
+                $(this).find('td:not(.button-action)').each(function () {
+                    rowData.push($(this).text());
+                });
+                tableData.push(rowData);
+            });
+
+            // Create a worksheet
+            var ws = XLSX.utils.aoa_to_sheet([tableHeaders, ...tableData]);
+
+            // Create a workbook
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'MembersData');
+
+            // Save the workbook as an Excel file
+            XLSX.writeFile(wb, 'MembersData.xlsx');
+        });
+    });
 </script>
-    
+        
 </head>
 <body>
 
@@ -144,12 +197,7 @@ $activeMembers = $activeCountRow['activeCount'];
 
 
 
-                <li >
-                    <a href="users-list.php" >
-                    <i class="ri-account-pin-box-line"></i>
-                        <span>Users</span>
-                    </a>
-                </li>
+          
 
                 
                 <li>    
@@ -174,7 +222,7 @@ $activeMembers = $activeCountRow['activeCount'];
           
 
                 <li class="logout">
-                    <a href="logout.php" id="logout-link">
+                <a href="../index/logout.php" id="logout-link">
                     <i class="ri-logout-box-line"></i>
                         <span>Logout</span>
                     </a>
@@ -237,9 +285,11 @@ $activeMembers = $activeCountRow['activeCount'];
 
                     <a href="add-citizen.php" class="add-member">Add New</a>   
 
-                    <a href="" class="import-member">Import Members</a>
+                <button class="import-member">  Import Members </button>  
 
-                    <a href="" class="export-member">Export Members(Excel)</a>
+                    <button class="export-member" id="export-members">Export Members (Excel)</button>
+
+
 
                     <div class="table-title-info">
                             <p>Total Members: <span><?php echo $totalMembers; ?></span></p>
@@ -259,20 +309,13 @@ $activeMembers = $activeCountRow['activeCount'];
                             <thead id="thead" >
 
                             <tr>
-                                <th>ID No.</th>
+                                <th>User ID</th>
                                 <th>Full Name</th>
-                                <th>Age</th>
-                                <th>Birthday</th>
-                                <th>Contact No.</th>
-                                <th>Contact Person</th>
-                                <th>Address</th>
-
-                                <th>Monthly Pension</th>
-
+                                <th>Email</th>
+                                <th>Role</th>
                                 <th>Status</th>
-
                                 <th>Action</th>
-                                
+                               
                         
                             </tr>
 
@@ -292,20 +335,10 @@ $activeMembers = $activeCountRow['activeCount'];
                                 // Generate HTML table rows based on the database columns
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<tr>";
-                                    echo "<td>{$row['Senior_ID']}</td>";
+                                    echo "<td>{$row['user_id']}</td>";
                                     echo "<td>{$row['First_Name']} {$row['Last_Name']}</td>";
-                                
-                                    // Calculate age based on DoB
-                                    $dob = new DateTime($row['DoB']);
-                                    $currentDate = new DateTime();
-                                    $age = $currentDate->diff($dob)->y;
-                                
-                                    echo "<td>{$age}</td>"; // Display age instead of directly fetching 'Age' from the database
-                                    echo "<td>{$row['DoB']}</td>";
-                                    echo "<td>{$row['Contact_Number']}</td>";
-                                    echo "<td>{$row['Contact_Person']}</td>";
-                                    echo "<td>{$row['Address']}</td>";
-                                    echo "<td>{$row['Pension']}</td>";
+                                    echo "<td>{$row['Email']}</td>";
+                                    echo "<td>{$row['Role']}</td>";
                                     echo "<td>{$row['Status']}</td>";
                                     
                                     // Add additional columns and formatting as needed
@@ -315,9 +348,9 @@ $activeMembers = $activeCountRow['activeCount'];
 
                                                                         
                                     echo "<td class='button-action'>
-                                    <a href='doctor-viewpatient.php?patient_id={$row['Senior_ID']}' class='view-button'>View <i class='bx bxs-show'></i></a>
-                                    <a href='doctor-editpatient.php?patient_id={$row['Senior_ID']}' class='edit-button'>Edit <i class='bx bxs-message-square-edit'></i></a>
-                                    <button class='delete-button' data-patient-id='{$row['Senior_ID']}' type='button'>Delete <i class='bx bxs-checkbox-minus'></i></button>
+                                    <a href='citizenview.php?user_id={$row['user_id']}' class='view-button'>View <i class='bx bxs-show'></i></a>
+                                    <a href='citizen-edit.php?user_id={$row['user_id']}' class='edit-button'>Edit <i class='bx bxs-message-square-edit'></i></a>
+                                    <button class='delete-button' data-user_id='{$row['user_id']}' type='button'>Delete <i class='bx bxs-checkbox-minus'></i></button>
 
 
                                 </td>";

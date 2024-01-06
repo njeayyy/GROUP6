@@ -2,46 +2,76 @@
 session_start();
 require '../session/db.php';
 
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
-    $serviceTitle = $_POST['ServiceTitle'];
-    $serviceDescription = $_POST['ServiceDescription'];
+// Check if service_id parameter is set in the URL
+if (isset($_GET['user_id'])) {    
+    $user_id = $_GET['user_id'];
 
-    // Prepare the SQL statement
-    $sql = "INSERT INTO services (Service_Title, Description, Date_Created) VALUES (?, ?, NOW())";
+   
+    $query = "SELECT * FROM users WHERE user_id = $user_id";
+    $result = mysqli_query($conn, $query);
 
-    // Create a prepared statement
-    $stmt = $conn->prepare($sql);
-
-    // Bind the parameters
-    $stmt->bind_param("ss", $serviceTitle, $serviceDescription);
-
-    // Execute the statement
-    if ($stmt->execute()) {
-        // Set success message in the session
-        $_SESSION['successMessage'] = "Service added successfully";
-
-        header("Location: add-services.php");
-        exit();
-    } else {
-        // Set error message in the session
-        $_SESSION['errorMessage'] = "Error: " . $stmt->error;
+    // Check for errors in query execution
+    if (!$result) {
+        die("Query failed: " . mysqli_error($conn));
     }
 
-    // Close the statement
-    $stmt->close();
+    // Check if a service with the given service_id exists
+    if (mysqli_num_rows($result) == 1) {
+        $seniorDetails = mysqli_fetch_assoc($result);
+
+        // Check if the form is submitted
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Handle form submission and update the service in the database
+
+         
+            $newFirstName = mysqli_real_escape_string($conn, $_POST['FirstName']);
+            $newLastName = mysqli_real_escape_string($conn, $_POST['LastName']);
+            $newDob = mysqli_real_escape_string($conn, $_POST['DOB']);
+            $newContactPerson = mysqli_real_escape_string($conn, $_POST['ContactPerson']);
+            $newContactNumber = mysqli_real_escape_string($conn, $_POST['ContactNumber']);
+            $newContactAddress = mysqli_real_escape_string($conn, $_POST['ContactAddress']);
+          
+            $newPension = mysqli_real_escape_string($conn, $_POST['Pension']);
+            $newStatus = mysqli_real_escape_string($conn, $_POST['Status']);
+
+            // Update the service in the database
+            $updateQuery = "UPDATE users SET     
+            First_Name = '$newFirstName', 
+            Last_Name = '$newLastName', 
+            DoB = '$newDob', 
+            Contact_Person = '$newContactPerson', 
+            Contact_Number = '$newContactNumber', 
+            Contact_Address = '$newContactAddress', 
+        
+            Pension = '$newPension', 
+            Status = '$newStatus' 
+            WHERE user_id = $user_id";
+        
+            $updateResult = mysqli_query($conn, $updateQuery);
+
+            if ($updateResult) {
+                // Set success message
+                $_SESSION['successMessage'] = "Details updated successfully";
+            } else {
+                // Set error message
+                $_SESSION['errorMessage'] = "Error updating details: " . mysqli_error($conn);
+            }
+
+            // Redirect to the same page to prevent form resubmission
+            header("Location: citizen-edit.php?user_id=$user_id");
+            exit();
+        }
+    } else {
+        echo "User not found!";
+    }
+
+    mysqli_free_result($result);
+} else {
+    echo "User ID not provided!";
 }
 
-// Close the database connection
-$conn->close();
+mysqli_close($conn);
 ?>
-
-
-
-
-
-
 
 
 
@@ -156,7 +186,6 @@ $conn->close();
                 </li>
 
 
-
                 
                 <li>    
                     <button class="dropdown-btn">
@@ -237,33 +266,58 @@ $conn->close();
 
         <div class="body--wrapper">
 
-                <p class="AddMember-title">Add Services</p>
+                <p class="AddMember-title">Edit Senior Details</p>
 
-                <form action="" method="post">
+                <form class="citizen-form" action="" method="post">
 
                     <div class="service-box">
-                        <label for="ServiceTitle">Service Title: </label>
-                        <input type="text" name="ServiceTitle" placeholder="Title" required>
+                        <label for="FirstName">First Name:</label>
+                        <input type="text" name="FirstName" value="<?php echo htmlspecialchars(  $seniorDetails['First_Name']); ?>" required readonly>
+                    </div>
+
+
+                    <div class="service-box">
+                        <label for="Lname">Last Name:</label>
+                        <input type="text" name="Lname" value="<?php echo htmlspecialchars(  $seniorDetails['Last_Name']); ?>" required readonly> 
                     </div>
 
                     <div class="service-box">
-                        <label for="ServiceDescription">Service Description: </label>
-                       <textarea name="ServiceDescription" id="" cols="30" rows="10"></textarea>
+                        <label for="DOB">Date of Birth:</label>
+                        <input type="date" name="DOB" value="<?php echo htmlspecialchars(  $seniorDetails['DOB']); ?>" required >
+                    </div>  
+
+
+                    <div class="service-box">
+                        <label for="ContactPerson">Contact Person:</label>
+                        <input type="text" name="ContactPerson" value="<?php echo htmlspecialchars($seniorDetails['Contact_Person']); ?>" required>
                     </div>
 
-                    
-              
+                    <div class="service-box">
+                        <label for="ContactNumber">Contact Number:</label>
+                        <input type="text" name="ContactNumber" value="<?php echo htmlspecialchars($seniorDetails['Contact_Number']); ?>" required>
+                    </div>
+
+                    <div class="service-box">
+                        <label for="ContactAddress">Contact Address:</label>
+                        <input type="text" name="ContactAddress" value="<?php echo htmlspecialchars($seniorDetails['Contact_Address']); ?>" required>
+                    </div>
+
+                
+                    <div class="service-box">
+                        <label for="Pension">Pension:</label>
+                        <input type="text" name="Pension" value="<?php echo htmlspecialchars($seniorDetails['Pension']); ?>" required>
+                    </div>
+
+                    <div class="service-box">
+                        <label for="Status">Status:</label>
+                        <input type="text" name="Status" value="<?php echo htmlspecialchars($seniorDetails['Status']); ?>" required>
+                    </div>
 
 
-                    <button type="submit" class="Save-Btn">Add</button>
-
-
-
-
-
+                  
+                    <button type="submit" class="Save-Btn">Save</button>
 
                 </form>
-
 
 
 

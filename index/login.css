@@ -200,7 +200,7 @@ li a {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    width: 300px;
+    width: 400px;
     margin: auto;
     padding-bottom: 24px;
   }
@@ -240,6 +240,9 @@ li a {
     border-radius: 4px;
     cursor: pointer;
     width: 100%;
+
+    font-family: 'Poppins', sans-serif;
+
   }
 
   .switch-form {
@@ -253,4 +256,11 @@ li a {
     border: none;
     padding: 8px 15px;
     cursor: pointer;
+
+    font-family: 'Poppins', sans-serif;
   }
+
+
+
+
+  /* OTP */

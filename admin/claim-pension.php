@@ -23,29 +23,6 @@ $dbUsername = $_SESSION['email'];
 $fullName = $lastname . ' ' . $firstName;
 
 
-// Fetch counts from each table
-$userCountQuery = "SELECT COUNT(*) AS user_count FROM users";
-$serviceCountQuery = "SELECT COUNT(*) AS service_count FROM services";
-
-$pensionCountQuery = "SELECT COUNT(*) AS pension_count FROM pension_history";
-
-// Execute queries
-$userResult = mysqli_query($conn, $userCountQuery);
-$serviceResult = mysqli_query($conn, $serviceCountQuery);
-
-$pensionResult = mysqli_query($conn, $pensionCountQuery);
-
-// Check for query errors
-if (!$userResult || !$serviceResult ||  !$pensionResult) {
-    die("Error in queries: " . mysqli_error($conn));
-}
-
-// Fetch counts from results
-$userCount = mysqli_fetch_assoc($userResult)['user_count'];
-$serviceCount = mysqli_fetch_assoc($serviceResult)['service_count'];
-
-$pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
-
 
 
 
@@ -72,6 +49,8 @@ $pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+
     
 </head>
 <body>
@@ -126,6 +105,8 @@ $pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
                 </li>
 
 
+                
+
 
 
                 <li>    
@@ -144,12 +125,14 @@ $pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
 
                 </li>
 
+
                 <li >
                     <a href="claim-pension.php" >
                     <i class="ri-account-pin-box-line"></i>
                         <span>Pension</span>
                     </a>
                 </li>
+
 
                 
               
@@ -231,62 +214,117 @@ $pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
 
         <div class="body--wrapper">
 
-                <div class="info-wrap">
+                <div class="claim-wrap">
 
-         
-                            <div class="info-container">
+                         
+                    <div class="form-container">
 
-                                    <p class="info-title">
-                                        Total Users
-                                    </p>
 
-                                
-                                    <p class="info-maintext"><?php echo $userCount; ?></p>
-                                 
 
-                                    <a href="users-list.php" class="info-link">
-                                        View All
-                                    </a>
-                                  
+                    <form action="claim-pension-action.php" method="POST" id="claimForm">
+
+
+                            <h1>Search User</h1>
+
+
+                            <div class="claim-container">
+                            <label for="user">Search user</label>
+                            <select name="user" id="userSelect">
+                                <?php
+                                // Fetch all users from the database and populate the dropdown
+                                $allUsersQuery = "SELECT user_id, First_Name, Last_Name FROM users";
+                                $allUsersResult = mysqli_query($conn, $allUsersQuery);
+
+                                if ($allUsersResult) {
+                                    while ($userRow = mysqli_fetch_assoc($allUsersResult)) {
+                                        $userId = $userRow['user_id'];
+                                        $userName = $userRow['First_Name'] . ' ' . $userRow['Last_Name'];
+                                        echo "<option value='$userId'>$userName, User ID: $userId</option>";
+                                    }
+
+                                    mysqli_free_result($allUsersResult);
+                                } else {
+                                    echo "<option value='' disabled selected>No users available</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                                    
+
+                               
+
+
+
+
+                            
+                         
+
+                            <div class="claim-container">
+
+                            <label for="">Enter amount to be claimed</label>
+                            <input type="text" name="amount">
 
 
                             </div>
+
+
+                            <button class="Save-btn" type="submit">Claim Pension</button>
+
+
+
+
+
+                            </form>
+
+
+
+
+                       
+
+
+                        
+
+
+
+                    </div>
+
+                          
+
+                            <hr>
+
+
+                                 
+                            <div class="user-information" id="userInformation">
+
+
+
+
+                                <h1>Senior Citizen Information</h1>
+
+
+                                    <p class="name">User ID:</p>
+                                    <p class="email">Email: </p>
+                                    <p class="dob">Date of birth: <span></span></p>
+                                    <p class="status">Status: <span> </span></p>
+                                    <p class="pension">Pension per month: </p>
+
+
+
+
+
+                            
+                            </div>
+
+
+                 
+
+
 
 
                     
 
-                            <div class="info-container">
-
-                            <p class="info-title">
-                                Total Services
-                            </p>
-
-                            <p class="info-maintext"><?php echo $serviceCount; ?></p>
-
-                            <a href="services-list.php" class="info-link">
-                                View All
-                            </a>
-
-
-
-                            </div>
-
-
-                            <div class="info-container">
-
-                            <p class="info-title">
-                                Total Pensions ID
-                            </p>
-                            <p class="info-maintext"><?php echo $pensionCount; ?></p>
-
-                            <a href="" class="info-link">
-                                View All
-                            </a>
-
-
-
-                            </div>
-
+                          
 
 
 
@@ -310,6 +348,83 @@ $pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
 
    
 </body>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Get the userSelect dropdown element
+    var userSelect = document.getElementById('userSelect');
+
+    // Add a change event listener to the dropdown
+    userSelect.addEventListener('change', function () {
+        // Get the selected user ID
+        var selectedUserId = userSelect.value;
+
+        // Check if a user is selected
+        if (selectedUserId !== '') {
+            // Make an AJAX request to fetch user information
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'fetch-user-info.php?user_id=' + selectedUserId, true);
+
+            // Define the callback function to handle the response
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Parse the JSON response
+                    var userInfo = JSON.parse(xhr.responseText);
+
+                    // Display user information in the userInformation div
+                    document.getElementById('userInformation').innerHTML = `
+                        <h1>Senior Citizen Information</h1>
+                        <p class="name">User ID: ${userInfo.user_id}</p>
+                        <p class="email">Email: ${userInfo.Email}</p>
+                        <p class="dob">Date of birth: ${userInfo.DOB}</p>
+                        <p class="status">Status: ${userInfo.Status}</p>
+                        <p class="pension">Pension per month: ${userInfo.Pension}</p>
+                    `;
+                }
+            };
+
+            // Send the AJAX request
+            xhr.send();
+        } else {
+            // Clear the user information if no user is selected
+            document.getElementById('userInformation').innerHTML = '';
+        }
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Get the claimForm element
+    var claimForm = document.getElementById('claimForm');
+
+    // Add a submit event listener to the form
+    claimForm.addEventListener('submit', function (event) {
+        // Prevent the default form submission
+        event.preventDefault();
+
+        // Submit the form using AJAX
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'claim-pension-action.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            // Handle the response, you can redirect or show a message
+            if (xhr.status === 200) {
+                alert('Pension claimed successfully!');
+                // You may want to redirect to another page or update the UI
+            } else {
+                alert('Failed to claim pension. Please try again.');
+                // Handle the error, show an error message, or redirect
+            }
+        };
+
+        // Get form data and send the request
+        var formData = new FormData(claimForm);
+        xhr.send(new URLSearchParams(formData));
+    });
+});
+
+</script>
 
 
 <script> 

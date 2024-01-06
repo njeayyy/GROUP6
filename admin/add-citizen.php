@@ -1,57 +1,3 @@
-<?php
-session_start();
-require '../session/db.php';
-
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Collect form data and capitalize first letter of each word
-    $firstName = ucwords(strtolower($_POST["FirstName"]));
-    $lastName = ucwords(strtolower($_POST["LastName"]));
-    $dob = $_POST["DOB"];
-    $contactPerson = ucwords(strtolower($_POST["ContactPerson"]));
-    $contactNumber = $_POST["ContactNumber"];
-    $contactAddress = ucwords(strtolower($_POST["ContactAddress"]));
-    $address = ucwords(strtolower($_POST["Address"]));
-    $pension = $_POST["Pension"];
-    $status = "Active"; // You can set a default status
-
-    // Prepare and bind the SQL statement with placeholders
-    $stmt = $conn->prepare("INSERT INTO senior_table (First_Name, Last_Name, DoB, Contact_Person, Contact_Number, Contact_Address, Address, Pension, Status) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-    // Bind parameters to the placeholders, using "s" for string type
-    $stmt->bind_param("sssssssss", $firstName, $lastName, $dob, $contactPerson, $contactNumber, $contactAddress, $address, $pension, $status);
-
-    // Execute the statement
-    if ($stmt->execute()) {
-        // Set success message in the session
-        $_SESSION['successMessage'] = "Record added successfully";
-       
-        header("Location: add-citizen.php");
-        exit();
-    } else {
-        // Set error message in the session
-        $_SESSION['errorMessage'] = "Error: " . $stmt->error;
-    }
-
-    // Close the statement
-    $stmt->close();
-}
-
-// Close the database connection
-$conn->close();
-
-?>
-
-
-
-
-
-
-
-
-
-
 
 
 <!DOCTYPE html>
@@ -84,31 +30,8 @@ $conn->close();
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 
 <!-- Your other styles and scripts -->
+    
 
-<script defer>
-    $(document).ready(function () {
-        // Initialize DataTable with additional options
-        $('#myTable').DataTable({
-            "lengthMenu": [10, 25, 50, 75, 100],
-            "pageLength": 10,
-            "pagingType": "full_numbers",
-            "language": {
-                "lengthMenu": "Show _MENU_ entries",
-                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                "infoEmpty": "Showing 0 to 0 of 0 entries",
-                "infoFiltered": "(filtered from _MAX_ total entries)",
-                "paginate": {
-                    "first": "First",
-                    "last": "Last",
-                    "next": "Next",
-                    "previous": "Previous"
-                }
-            }
-        });
-    });
-
-    /* Other scripts and functions */
-</script>
     
 </head>
 <body>
@@ -164,13 +87,7 @@ $conn->close();
 
 
 
-                <li >
-                    <a href="users-list.php" >
-                    <i class="ri-account-pin-box-line"></i>
-                        <span>Users</span>
-                    </a>
-                </li>
-
+             
                 
                 <li>    
                     <button class="dropdown-btn">
@@ -194,7 +111,7 @@ $conn->close();
           
 
                 <li class="logout">
-                    <a href="logout.php" id="logout-link">
+                <a href="../index/logout.php" id="logout-link">
                     <i class="ri-logout-box-line"></i>
                         <span>Logout</span>
                     </a>
@@ -255,10 +172,17 @@ $conn->close();
 
                 <form action="" method="post">
 
+                <div class="input-box">
+                        <label for="email">Email: </label>
+                        <input type="email" name="email" placeholder="Email: " required>
+                    </div>
+
                     <div class="input-box">
                         <label for="FirstName">First Name: </label>
                         <input type="text" name="FirstName" placeholder="First Name" required>
                     </div>
+
+
 
                     <div class="input-box">
                         <label for="LastName">Last Name: </label>

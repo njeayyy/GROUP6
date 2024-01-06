@@ -184,14 +184,6 @@ $(document).ready(function () {
                 </li>
 
 
-
-                <li >
-                    <a href="users-list.php" >
-                    <i class="ri-account-pin-box-line"></i>
-                        <span>Users</span>
-                    </a>
-                </li>
-
                 
                 <li>    
                     <button class="dropdown-btn">
@@ -215,7 +207,7 @@ $(document).ready(function () {
           
 
                 <li class="logout">
-                    <a href="logout.php" id="logout-link">
+                <a href="../index/logout.php" id="logout-link">
                     <i class="ri-logout-box-line"></i>
                         <span>Logout</span>
                     </a>

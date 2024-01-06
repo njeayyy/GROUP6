@@ -436,205 +436,20 @@ transition: 0.5s;
 /* DASHBOARD CSS */
 
 
-    .info-wrap {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap:24px;
-    }
 
 
-    .info-container {
-   
-        padding: 16px;
-        border-radius: 4px;
-    }
+.service-container {
+    background-color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 12px;
 
-    .info-container:nth-child(1) {
-        background-color: #4977E7;
-    }
-
-
-    .info-container:nth-child(2) {
-        background-color: #7CC5FA;
-    }
-
-
-    .info-container:nth-child(3) {
-        background-color: #9E71CE;
-    }
-
-
-    .info-container:nth-child(4) {
-        background-color: #86D1B3;
-    }
-
-
-    .info-container p, a {
-        color: white;
-    }
-
-
-    .info-maintext {
-            font-size: 24px;
-            font-weight: var(--fw-semibold);
-    }
-
-
-    /* DASHBOARD CSS */
+}
 
 
 
 
-    /* CITIZENS CSS */
-
-
-        .rectangle {
-            border: 1px solid #ccc;
-            padding: 24px;
-        }
-
-        .table-title {
-            display: flex;
-            align-items: center;
-            gap: 48px;
-            position: relative;
-        }
-
-        .table-title p {
-            font-size: 24px;
-            font-weight: var(--fw-medium);
-        }
-
-        .add-member {
-        
-            font-weight: var(--fw-medium);
-
-            text-decoration: none;
-            background-color: var(--clr-primary-color);
-            padding: 12px;
-            color: white;
-            border-radius: 4px;
-        }
-
-
-        .import-member, .export-member {
-            
-            color: var(--clr-text);
-            border-radius: 4px;
-            padding: 12px;
-            border: 1px solid #Ccc;
-            background-color: white;
-
-            font-family: 'Poppins' , sans-serif;
-            font-size: 1rem;
-        }
-
-        .table-title-info {
-            position: absolute;
-            right: 0;
-        }
-
-
-        .table-title-info p {
-            font-size: 1rem;
-            margin: 0;
-            color: var(--clr-text-lessopacity);
-            text-align: end;
-        }
-
-        .table-title-info span {
-            font-size: 1rem;
-            margin: 0;
-            color: var(--clr-text-lessopacity);
-            text-align: end;
-        }
+/* EDIT PROFILE */
     
-
-        .button-action {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-      .view-button, .edit-button {
-       display: flex;
-       align-items: center;
-       gap: 4px;
-        padding: 8px;
-        border-radius: 4px;
-        text-decoration: none;
-        color: white;
-        background-color: var(--clr-primary-color);
-      }
-
-
-      .delete-button {
-        display: flex;
-       align-items: center;
-        border: none;
-        outline: none;
-        gap: 4px;
-        padding: 8px;
-        border-radius: 4px;
-        text-decoration: none;
-        color: white;
-        background-color: var(--clr-primary-color);
-        font-size: 1rem;
-        font-family: 'Poppins', sans-serif;
-
-      }
-
-
-
-
-    /* CITIZENS CSS */   
-    
-    
-    /* ADD CITIZEN CSS */
-
-    .AddMember-title {
-        font-size: 24px;
-        font-weight: var(--fw-medium);
-    }   
-
-    form {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    .input-box {
-        width: 600px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .input-box input {
-     
-        padding: 12px;
-    width: 400px;
-   
-
-        font-family: 'Poppins', sans-serif;
-    }
-
-    .Save-Btn {
-        cursor: pointer;
-        border-radius: 4px;
-        width: 150px;
-        height: 50px;
-        border: none;
-        outline: none;
-        padding: 12px;
-        background-color: var(--clr-primary-color);
-        color: white;
-
-        font-family: 'Poppins', sans-serif;
-    }
-
-
-
 
     
 .success-message {
@@ -663,30 +478,11 @@ transition: 0.5s;
   }
 
 
-.errorMessage i {
-    color: #D8000C;
-
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
-
-
-
-
-
-
-
-    /* ADD CITIZEN CSS */
-
-
-
-
-    /* USERS LIST CSS */    
-
-
-
-
-
-
-/* ADD SERVICES CSS */
 
 
 .service-box {
@@ -707,105 +503,11 @@ transition: 0.5s;
 }
 
 
-.service-box textarea {
-    padding: 12px;
-    width: 100%;
-    margin-top: 16px;
-    font-family: 'Poppins', sans-serif;
-}
-
-
-
-
-/* ADD SERVICES CSS */
-
-/* SERVICES LIST CSS */
-
-
-
-
-/* SERVICES LIST CSS */
-
-
-
-
-/* CITIZEN VIEW */
-
-.Seniorh1 {
-    text-align: center;
-}
-
-.citizen-form {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-}
-.citizen-container {
-  
-
-    background-color: #e4e4e4;
-    padding: 16px;
-}
-
-.citizen-container p {
-    font-weight: var(--fw-semibold);
-}
-
-.citizen-container span {
-    font-weight: var(--fw-regular);
-}
-
-
-
-
-/* CLAIM PENSION PART */
-
-.claim-wrap {
-    display: flex;
-    justify-content: center;
-    gap: 200px;
-    
-  
-    height: 80vh;
-
-   padding: 36px 80px;
-
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-}
-
-.form-container {
-    display: flex;
-    flex-direction: column;
-    gap: 100px;
-}
-
-
-hr {
-    margin: 0;
-}
-
-.claim-container {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: 16px;
-}
-
-.claim-container select {
-    width: 400px;
-    padding: 12px;
-}
-
-.claim-container input {
-    width: 400px;
-    padding: 12px;
-}
-
-
-
-.Save-btn {
+.Save-Btn {
     cursor: pointer;
     border-radius: 4px;
-  
+    width: 150px;
+    height: 50px;
     border: none;
     outline: none;
     padding: 12px;
@@ -814,4 +516,6 @@ hr {
 
     font-family: 'Poppins', sans-serif;
 }
+
+
 
