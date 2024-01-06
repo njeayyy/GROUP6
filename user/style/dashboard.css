@@ -439,10 +439,22 @@ transition: 0.5s;
 
 
 .service-container {
-    background-color: white;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+   
+ 
     padding: 12px;
 
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+
+}
+
+
+.service-inside-container {
+    background-color: white;
+    padding: 16px;
+
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 

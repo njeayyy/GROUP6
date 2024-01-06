@@ -1,4 +1,5 @@
 <?php
+
 // Include your database connection file
 include('../session/db.php');
 
@@ -21,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     // Prepare and execute the SQL statement
-    $stmt = $conn->prepare("INSERT INTO users (First_name, Last_name, Email, Password, Role) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO users (First_Name, Last_Name, Email, Password, Role) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $firstName, $lastName, $username, $hashedPassword, $role);
 
     // Set the value of $role to 'User'

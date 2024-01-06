@@ -1,33 +1,76 @@
-<?php
-// Include the session manager
+    <?php
+    // Include the session manager
 
-require '../session/db.php';
-
-
-
-session_start();
-
-// Check if the user is not logged in
-if (!isset($_SESSION['user_id'])) {
-    // Redirect the user to the login page or another page as needed
-    header("Location: ../index/login.php");
-    exit();
-}
-
-// If you need additional user information, you can fetch it from the session
-$userID = $_SESSION['user_id'];
-$lastname = $_SESSION['Last_name'];
-$firstName = $_SESSION['First_name'];
-$dbUsername = $_SESSION['email'];
-
-$fullName = $lastname . ' ' . $firstName;
+    require '../session/db.php';
 
 
 
+    session_start();
+
+    // Check if the user is not logged in
+    if (!isset($_SESSION['user_id'])) {
+        // Redirect the user to the login page or another page as needed
+        header("Location: ../index/login.php");
+        exit();
+    }   
+
+    // If you need additional user information, you can fetch it from the session
+    $userID = $_SESSION['user_id'];
+    $lastname = $_SESSION['Last_name'];
+    $firstName = $_SESSION['First_name'];
+    $dbUsername = $_SESSION['email'];
+    $fullName = $lastname . ' ' . $firstName;
+
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_btn'])) {
+        // Get the new values from the form
+        $newFirstName = $_POST['firstname'];
+        $newLastName = $_POST['lastname'];
+
+
+        require '../session/db.php';
+    
+        // Validate and update the user's information in the database
+        if (!empty($newFirstName) && !empty($newLastName)) {
+            // Connect to your database (replace with your database credentials)
+     
+    
+            // Update user information in the database
+            $updateQuery = "UPDATE users SET First_name=?, Last_name=? WHERE user_id=?";
+            $stmt = $conn->prepare($updateQuery);
+            $stmt->bind_param("sss", $newFirstName, $newLastName, $userID);
+            
+            if ($stmt->execute()) {
+                // Update session variables with new values
+                $_SESSION['First_name'] = $newFirstName;
+                $_SESSION['Last_name'] = $newLastName;
+    
+                // Set success message
+                $_SESSION['successMessage'] = "Profile updated successfully!";
+            } else {
+                // Set error message
+                $_SESSION['errorMessage'] = "Error updating profile. Please try again.";
+            }
+    
+            // Close the database connection
+            $stmt->close();
+            $conn->close();
+        } else {
+            // Set error message if required fields are empty
+            $_SESSION['errorMessage'] = "First name and last name are required.";
+        }
+    
+        // Redirect back to the same page to clear the form data from the URL
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    }
+    ?>
+
+    
 
 
 
-?>
+
 
 
 
@@ -180,25 +223,25 @@ $fullName = $lastname . ' ' . $firstName;
 
                     <div class="service-box">
                         <label for="email">Email:</label>
-                        <input type="email" name="email" value="" required readonly>
+                        <input type="email" name="email" value="<?php echo $dbUsername; ?>" required readonly>
                     </div>
 
 
                     
                     <div class="service-box">
                         <label for="firstname">First Name:</label>
-                        <input type="firstname" name="firstname" value="" required >
+                        <input type="text" name="firstname" value="<?php echo $firstName; ?>" required>
                     </div>
 
-                    <div class="service-box">
+                        <div class="service-box">
                         <label for="lastname">Last Name:</label>
-                        <input type="lastname" name="firstname" value="" required >
+                        <input type="text" name="lastname" value="<?php echo $lastname; ?>" required>
                     </div>
 
 
 
 
-                    <button type="submit" class="Save-Btn">Save</button>
+                    <button type="submit" name="save_btn" class="Save-Btn">Save</button>
 
                     </form>
 
@@ -248,6 +291,40 @@ $fullName = $lastname . ' ' . $firstName;
                 }
                 });
                 }
+
+
+                
+          
+    // Check if the success parameter is present in the URL
+    var successMessage = "<?php echo isset($_SESSION['successMessage']) ? $_SESSION['successMessage'] : ''; ?>";
+    if (successMessage !== "") {
+        var successMessageDiv = document.getElementById("successMessage");
+        successMessageDiv.textContent = successMessage;
+        successMessageDiv.style.display = "block";
+
+        // Scroll to the success message for better visibility
+        successMessageDiv.scrollIntoView({ behavior: 'smooth' });
+
+        // Remove the session variable to avoid displaying the message on subsequent page loads
+        <?php unset($_SESSION['successMessage']); ?>
+    }
+
+    var errorMessage = "<?php echo isset($_SESSION['errorMessage']) ? $_SESSION['errorMessage'] : ''; ?>";
+    if (errorMessage !== "") {
+        var errorMessageDiv = document.getElementById("errorMessage");
+        errorMessageDiv.textContent = errorMessage;
+        errorMessageDiv.style.display = "block";
+
+        // Scroll to the error message for better visibility
+        errorMessageDiv.scrollIntoView({ behavior: 'smooth' });
+
+        // Remove the session variable to avoid displaying the message on subsequent page loads
+        <?php unset($_SESSION['errorMessage']); ?>
+    }
+
+
+
+
 
 
 

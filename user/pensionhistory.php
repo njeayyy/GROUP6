@@ -24,6 +24,18 @@ $fullName = $lastname . ' ' . $firstName;
 
 
 
+// Fetch pension data for the logged-in user
+$sql = "SELECT pension_id, Senior_ID, claim_Date, Amount FROM pension_history WHERE Senior_ID = ?";
+$stmt = $conn->prepare($sql);
+
+if (!$stmt) {
+    die("Error in preparing statement: " . $conn->error);
+}
+
+$stmt->bind_param('i', $userID);
+$stmt->execute();
+$result = $stmt->get_result();
+$pensionData = $result->fetch_all(MYSQLI_ASSOC);
 
 
 
@@ -236,6 +248,18 @@ $(document).ready(function () {
 
 
                     <tbody>
+
+
+                    <?php
+    foreach ($pensionData as $row) {
+        echo "<tr>";
+        echo "<td>{$row['pension_id']}</td>";
+        echo "<td>{$row['Senior_ID']}</td>";
+        echo "<td>{$row['claim_Date']}</td>";
+        echo "<td>{$row['Amount']}</td>";
+        echo "</tr>";
+    }
+    ?>
 
 
 

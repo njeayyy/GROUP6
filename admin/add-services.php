@@ -174,6 +174,16 @@ $conn->close();
 
                 </li>
 
+                
+                <li >
+                    <a href="claim-pension.php" >
+                    <i class="ri-account-pin-box-line"></i>
+                        <span>Pension</span>
+                    </a>
+                </li>
+
+                
+
 
 
 

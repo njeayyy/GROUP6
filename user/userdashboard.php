@@ -23,7 +23,11 @@ $dbUsername = $_SESSION['email'];
 $fullName = $lastname . ' ' . $firstName;
 
 
+$sql = "SELECT service_id, Service_Title, Description, Date_Created FROM services";
+$result = $conn->query($sql);
 
+// Close the database connection
+$conn->close();
 
 
 
@@ -177,18 +181,39 @@ $fullName = $lastname . ' ' . $firstName;
 
 
                 <div class="service-container">
+                        <?php
+                        // Iterate through the fetched services
+                        while ($row = $result->fetch_assoc()) {
+                            $serviceId = $row['service_id'];
+                            $serviceTitle = $row['Service_Title'];
+                            $description = $row['Description'];
+                            $dateCreated = $row['Date_Created'];
 
-                                <h3 class="service-title">
-                                        Service 1
-                                </h3>
+                            // Check if the service is within the last 14 days
+                            $currentDate = new DateTime();
+                            $serviceDate = new DateTime($dateCreated);
+                            $interval = $currentDate->diff($serviceDate);
+
+                            // Display the service only if it's within the last 14 days
+                            if ($interval->days <= 14) {
+                                echo '<div class="service-inside-container">';
+                                echo '<h3 class="service-title">' . $serviceTitle . '</h3>';
+                                echo '<p class="service-description">' . $description . '</p>';
+                                echo '<p class="date">' . $dateCreated . '</p>';
+                                echo '</div>';
+                            }
+                        }
+                        ?>
 
 
-                                <p class="service-description"> Description</p>
 
-                                <p class="date">0909-0909</p>
 
-                </div>
 
+
+
+
+
+               
             
 
 

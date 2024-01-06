@@ -2,11 +2,11 @@
 session_start();
 require '../session/db.php';
 
-if (isset($_POST['senior_id'])) {
-    $seniorId = mysqli_real_escape_string($conn, $_POST['senior_id']);
+if (isset($_POST['user_id'])) {
+    $user_id = mysqli_real_escape_string($conn, $_POST['user_id']);
 
     // Perform the delete operation
-    $deleteQuery = "DELETE FROM senior_table WHERE Senior_ID = '$seniorId'";
+    $deleteQuery = "DELETE FROM users WHERE user_id= '$user_id'";
     $deleteResult = mysqli_query($conn, $deleteQuery);
 
     if (!$deleteResult) {

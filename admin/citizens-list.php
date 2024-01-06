@@ -90,8 +90,8 @@ $activeMembers = $activeCountRow['activeCount'];
 
 
         $('.delete-button').click(function () {
-      // Get the senior ID from the button's data attribute
-      var userID = $(this).data('userID');
+  
+      var userID = $(this).data('user_id');
 
       // Show a confirmation dialog
       var confirmDelete = confirm('Are you sure you want to delete this senior citizen?');
@@ -100,10 +100,10 @@ $activeMembers = $activeCountRow['activeCount'];
         // Send an AJAX request to delete the senior from the database
         $.ajax({
           type: 'POST',
-          url: 'delete-senior.php', // Create a PHP script for deleting seniors
+          url: 'delete-senior.php', 
           data: { user_id: userID },
           success: function (response) {
-            // Handle the response (e.g., reload the page or update the table)
+  
             location.reload(); // Reload the page for simplicity; you can implement a more sophisticated update logic
           },
           error: function (xhr, status, error) {
@@ -215,6 +215,17 @@ $activeMembers = $activeCountRow['activeCount'];
                     </div>
 
                 </li>
+
+
+                
+                <li >
+                    <a href="claim-pension.php" >
+                    <i class="ri-account-pin-box-line"></i>
+                        <span>Pension</span>
+                    </a>
+                </li>
+
+                
 
 
 
