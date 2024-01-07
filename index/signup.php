@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Handle file upload
     if (isset($_FILES['idPicture']) && $_FILES['idPicture']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = '../admin/SeniorID-verification';
+        $uploadDir = '../admin/SeniorID-verification/';
         $uploadFile = $uploadDir . basename($_FILES['idPicture']['name']);
 
         // Move the uploaded file to the desired location
