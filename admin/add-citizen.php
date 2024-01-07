@@ -1,8 +1,13 @@
 <?php
 // Include the session manager
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
-require '../session/db.php';
-
+// Include your database connection file
+include('../session/db.php');
+require '../vendor/autoload.php';
+require '../session/config.php';
 
 
 session_start();
@@ -14,13 +19,93 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// If you need additional user information, you can fetch it from the session
+
 $userID = $_SESSION['user_id'];
 $lastname = $_SESSION['Last_name'];
 $firstName = $_SESSION['First_name'];
 $dbUsername = $_SESSION['email'];
 
 $fullName = $lastname . ' ' . $firstName;
+
+
+// ... (your existing code)
+
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Your existing code to check if the user is logged in...
+
+    // Retrieve form data
+    $email = $_POST['email'];
+    $firstName = $_POST['FirstName'];
+    $lastName = $_POST['LastName'];
+    $dob = $_POST['DOB'];
+    $contactPerson = $_POST['ContactPerson'];
+    $contactNumber = $_POST['ContactNumber'];
+    $contactAddress = $_POST['ContactAddress'];
+    $address = $_POST['Address'];
+    $pension = $_POST['Pension'];
+    $rawPassword = generateRandomPassword(12); // Use the random password function with length 12
+    $hashedPassword = password_hash($rawPassword, PASSWORD_DEFAULT); // Hash the password
+
+    // Insert data into the database
+    // (Assuming you have a database connection and a table named 'senior_citizens')
+    $sql = "INSERT INTO users (email, first_name, last_name, dob, Contact_person, Contact_number, Contact_address,  pension, password) 
+            VALUES ('$email', '$firstName', '$lastName', '$dob', '$contactPerson', '$contactNumber', '$contactAddress',  '$pension', '$hashedPassword')";
+    if (mysqli_query($conn, $sql)) {
+        // Create a PHPMailer instance
+        $mail = new PHPMailer;
+
+        // Set up SMTP for sending the email
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com'; // Your SMTP server
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+        $mail->Username = SMTP_USERNAME; // Use the constant
+        $mail->Password = SMTP_PASSWORD; // Use the constant
+
+            $mail->setFrom(SMTP_USERNAME,  'Account Added');
+        $mail->addAddress($email, $firstName . ' ' . $lastName);
+
+        // Set email subject and body
+        $mail->Subject = 'Welcome to Senior Citizen Information System';
+        $mail->Body = 'Dear ' . $firstName . ', 
+
+        Thank you for registering with Senior Citizen Information System. Your password is: ' . $rawPassword . '
+
+        Best regards,
+        Senior Citizen Information System Team';
+
+        // Send the email
+        if (!$mail->send()) {
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+            $_SESSION['successMessage'] = "Senior citizen added successfully! Email sent.";
+        }
+    } else {
+        $_SESSION['errorMessage'] = "Error: " . mysqli_error($conn);
+    }
+
+    // Close the database connection
+    mysqli_close($conn);
+
+    // Redirect back to the same page to display success/error messages
+    header("Location: add-citizen.php");
+    exit();
+}
+function generateRandomPassword($length = 12) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-_';
+    $password = '';
+    
+    for ($i = 0; $i < $length; $i++) {
+        $password .= $characters[rand(0, strlen($characters) - 1)];
+    }
+    
+    return $password;
+}
+
+// Usage
+$randomPassword = generateRandomPassword(12);
 
 
 
