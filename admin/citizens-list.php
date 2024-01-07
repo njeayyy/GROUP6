@@ -2,6 +2,17 @@
 session_start();
 require '../session/db.php';
 
+
+
+
+
+// Check if the user is not logged in
+if (!isset($_SESSION['user_id'])) {
+    // Redirect the user to the login page or another page as needed
+    header("Location: ../index/login.php");
+    exit();
+}  
+
 // Fetch data from the database
 $query = "SELECT * FROM users";
 $result = mysqli_query($conn, $query);
