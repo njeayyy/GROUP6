@@ -369,7 +369,7 @@ $notVerifiedMembers = $notVerifiedCountRow['notVerifiedCount'];
 
                     <a href="add-citizen.php" class="add-member">Add New</a>   
 
-                <button class="import-member">  Import Members </button>  
+       
 
                     <button class="export-member" id="export-members">Export Members (Excel)</button>
 
