@@ -377,7 +377,7 @@ $notVerifiedMembers = $notVerifiedCountRow['notVerifiedCount'];
 
                     <div class="table-title-info">
                             <p>Total Members: <span><?php echo $totalMembers; ?></span></p>
-                            <p>Current Active: <span><?php echo $activeMembers; ?></span></p>
+                            <p>Current Verified: <span><?php echo $activeMembers; ?></span></p>
                     </div>
 
 
