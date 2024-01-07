@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
     // Redirect the user to the login page or another page as needed
     header("Location: ../index/login.php");
     exit();
-}
+}   
 
 // If you need additional user information, you can fetch it from the session
 $userID = $_SESSION['user_id'];
@@ -237,14 +237,14 @@ $pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
                             <div class="info-container">
 
                                     <p class="info-title">
-                                        Total Users
+                                        Total Senior
                                     </p>
 
                                 
                                     <p class="info-maintext"><?php echo $userCount; ?></p>
                                  
 
-                                    <a href="users-list.php" class="info-link">
+                                    <a href="citizens-list.php" class="info-link">
                                         View All
                                     </a>
                                   

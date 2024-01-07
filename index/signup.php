@@ -19,34 +19,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit(); // Stop execution if passwords don't match
     }
 
+    // Handle file upload
+    if (isset($_FILES['idPicture']) && $_FILES['idPicture']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = '../admin/SeniorID-verification';
+        $uploadFile = $uploadDir . basename($_FILES['idPicture']['name']);
+
+        // Move the uploaded file to the desired location
+        if (move_uploaded_file($_FILES['idPicture']['tmp_name'], $uploadFile)) {
+            // File upload successful, you can use $uploadFile or other relevant information
+            // ...
+        } else {
+            echo "<script>alert('Error uploading ID picture.');</script>";
+            exit();
+        }
+    } else {
+        echo "<script>alert('ID picture upload failed.');</script>";
+        exit();
+    }
+
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    // Prepare and execute the SQL statement
-    $stmt = $conn->prepare("INSERT INTO users (First_Name, Last_Name, Email, Password, Role) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $firstName, $lastName, $username, $hashedPassword, $role);
-
+    $stmt = $conn->prepare("INSERT INTO users (First_Name, Last_Name, Email, Password, Role, Status ,ID_Picture) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $firstName, $lastName, $username, $hashedPassword, $role, 'Not Verified', $uploadFile);
+    
     // Set the value of $role to 'User'
     $role = 'User';
-
+    
     // Check if the statement is executed successfully
     if ($stmt->execute()) {
         // Registration successful
         echo "<script>alert('Registration successful!');</script>";
-
-        // Redirect to another page to avoid form resubmission
-        header("Location: login.php");
-        exit();
+    
     } else {
         // Registration failed
         echo "<script>alert('Error during registration: " . $stmt->error . "');</script>";
     }
-
+    
     // Close the statement and database connection
     $stmt->close();
     $conn->close();
 }
 ?>
-
 
 
 <!DOCTYPE html>
@@ -75,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               <h2>Sign Up</h2>
             </div>
             <div class="auth-form">
-              <form method="post" action="">
+            <form method="post" action="" enctype="multipart/form-data">
                 <!-- Add newFirstName and newLastName fields -->
                 <div class="form-group">
                   <label for="newFirstName">First Name:</label>
@@ -98,6 +111,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                   <label for="confirmPassword">Re-enter Password:</label>
                   <input type="password" id="confirmPassword" name="confirmPassword" required>
                 </div>
+
+                <div class="form-group">
+      <label for="idPicture">Upload ID Picture:</label>
+      <input type="file" id="idPicture" name="idPicture" accept="image/*" required>
+  </div>
+
+
+
+
                 <div class="form-group">
                   <button type="submit">Sign Up</button>
                 </div>

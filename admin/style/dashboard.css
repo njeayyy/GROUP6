@@ -505,6 +505,10 @@ transition: 0.5s;
             font-weight: var(--fw-medium);
         }
 
+        table a {
+            color: var(--clr-dark);
+        }
+
         .add-member {
         
             font-weight: var(--fw-medium);
@@ -556,16 +560,31 @@ transition: 0.5s;
             gap: 12px;
         }
 
-      .view-button, .edit-button {
-       display: flex;
-       align-items: center;
-       gap: 4px;
-        padding: 8px;
-        border-radius: 4px;
-        text-decoration: none;
-        color: white;
-        background-color: var(--clr-primary-color);
-      }
+        .verify-button {
+            border: none;
+            outline: none;
+
+            display: flex;
+            align-items: center;
+            gap: 4px;
+             padding: 10px;
+             border-radius: 4px;
+             text-decoration: none;
+             color: white;
+             background-color: var(--clr-primary-color);
+             font-family: 'Poppins', sans-serif;
+        }
+
+        .view-button, .edit-button   {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 8px;
+            border-radius: 4px;
+            text-decoration: none;
+            color: white;
+            background-color: var(--clr-primary-color);
+        }
 
 
       .delete-button {

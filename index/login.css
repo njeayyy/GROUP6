@@ -264,3 +264,32 @@ li a {
 
 
   /* OTP */
+
+
+
+  /* NOT YET VERIFIED */
+
+
+
+  .notyet{
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    
+    margin: auto;
+    padding-bottom: 24px;
+  }
+  .not-header {
+    background-color: rgb(118, 39, 80);
+    color: #ffffff;
+    padding: 16px;
+    text-align: center;
+  }
+
+
+  .not-header {
+    font-size: 16px;
+  }
+
+
