@@ -49,8 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insert data into the database
     // (Assuming you have a database connection and a table named 'senior_citizens')
-    $sql = "INSERT INTO users (email, first_name, last_name, dob, Contact_person, Contact_number, Contact_address,  pension, password) 
-            VALUES ('$email', '$firstName', '$lastName', '$dob', '$contactPerson', '$contactNumber', '$contactAddress',  '$pension', '$hashedPassword')";
+    $sql = "INSERT INTO users (email, first_name, last_name, dob, Contact_person, Contact_number, Contact_address,  pension, password, Status, Role) 
+            VALUES ('$email', '$firstName', '$lastName', '$dob', '$contactPerson', '$contactNumber', '$contactAddress',  '$pension', '$hashedPassword' , 'Verified', 'User')";
     if (mysqli_query($conn, $sql)) {
         // Create a PHPMailer instance
         $mail = new PHPMailer;
