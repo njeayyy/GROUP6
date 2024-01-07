@@ -469,7 +469,7 @@ $notVerifiedMembers = $notVerifiedCountRow['notVerifiedCount'];
                                 <th>Full Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                <th>ID</th>
+                                <th>Uploaded ID</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -493,7 +493,7 @@ $notVerifiedMembers = $notVerifiedCountRow['notVerifiedCount'];
                               
 
                                     echo "<td class='button-action'>
-                                    <a href='citizenview.php?user_id={$row['user_id']}' class='view-button'>View <i class='bx bxs-show'></i></a>
+                                    
                                     <button class='verify-button' data-user-id='{$row['user_id']}'>Verify<i class='ri-verified-badge-line'></i> </button>
                                  </td>";
                            
