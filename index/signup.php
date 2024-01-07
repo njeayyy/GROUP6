@@ -5,7 +5,7 @@ include('../session/db.php');
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
+
     // Fetch user input
     $firstName = ucwords($_POST['newFirstName']);
     $lastName = ucwords($_POST['newLastName']);
@@ -39,22 +39,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $conn->prepare("INSERT INTO users (First_Name, Last_Name, Email, Password, Role, Status ,ID_Picture) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $firstName, $lastName, $username, $hashedPassword, $role, 'Not Verified', $uploadFile);
+    $idPicture = $uploadFile;
+
+    $stmt = $conn->prepare("INSERT INTO users (Email, Password, Last_Name, First_Name, Role, Status, ID_Picture) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssss", $username, $hashedPassword, $lastName, $firstName, $role, $status, $idPicture);
     
+    // Set the value of $status to 'Not Verified'
+    $status = 'Not Verified';
+
     // Set the value of $role to 'User'
     $role = 'User';
-    
+
     // Check if the statement is executed successfully
     if ($stmt->execute()) {
         // Registration successful
         echo "<script>alert('Registration successful!');</script>";
-    
+
     } else {
         // Registration failed
         echo "<script>alert('Error during registration: " . $stmt->error . "');</script>";
     }
-    
+
     // Close the statement and database connection
     $stmt->close();
     $conn->close();
