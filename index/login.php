@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
 
     /// Prepare and execute the SQL statement
-    $stmt = $conn->prepare("SELECT user_id, Email, password, Last_Name, First_Name, Role, OTP, OTP_Expiration, OTP_activated, Status FROM users WHERE Email = ?");
+    $stmt = $conn->prepare("SELECT user_id, Email, password, Last_Name, First_Name, Role, OTP, OTP_Expiration, OTP_activated FROM users WHERE Email = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $stmt->store_result();
@@ -40,11 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Check if a user with the given username exists
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($userId, $dbUsername, $dbPassword, $lastName, $firstName, $userRole, $otpFromDb, $otpExpiration, $otpActivated, $userStatus);
+        $stmt->bind_result($userId, $dbUsername, $dbPassword, $lastName, $firstName, $userRole, $otpFromDb, $otpExpiration, $otpActivated);
 
 
         $stmt->fetch();
-        if ($userStatus == 'Verified') {
+      
         // Verify the entered password against the hashed password in the database
         if (password_verify($password, $dbPassword)) {
             // Password is correct, set up a session or redirect based on the role
@@ -157,14 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "<script>alert('Incorrect password. Please try again.');</script>";
         }
 
-    } else {
-        // User is not verified
-        // User is not verified, redirect to notverifiy.php
-        header("Location: notyetverified.php");
-        exit();
-
-    }
-    
+  
     } else {
         // User with the given username does not exist
         echo "<script>alert('User not found. Please check your username.');</script>";

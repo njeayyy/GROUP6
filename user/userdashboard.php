@@ -23,7 +23,12 @@ $dbUsername = $_SESSION['email'];
 $fullName = $lastname . ' ' . $firstName;
 
 
-$sql = "SELECT service_id, Service_Title, Description, Date_Created FROM services";
+$servicesql = "SELECT service_id, Service_Title, Description, Date_Created FROM services";
+$serviceresult = $conn->query($servicesql);
+
+
+$current_date = date('Y-m-d');
+$sql = "SELECT * FROM images WHERE expiration_date >= '$current_date'";
 $result = $conn->query($sql);
 
 // Close the database connection
@@ -54,6 +59,102 @@ $conn->close();
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('calendar');
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    events: {
+      url: 'get-events.php',
+      method: 'POST',
+      extraParams: {
+        custom_param: 'No events'
+      },
+      failure: function() {
+        alert('There was an error while fetching events!');
+      },
+      color: 'yellow',   // a non-ajax option
+      textColor: 'black' // a non-ajax option   
+    },
+    eventClick: function(info) {
+        var eventDetails = "Title: " + info.event.title + "\n";
+
+        if (info.event.start) {
+            eventDetails += "Start: " + info.event.start.toLocaleString() + "\n";
+        }
+
+        if (info.event.end) {
+            eventDetails += "End: " + info.event.end.toLocaleString() + "\n";
+        }
+
+        eventDetails += "Place: " + (info.event.extendedProps.place || 'N/A') + "\n";
+        eventDetails += "Author: " + (info.event.extendedProps.author || 'N/A');
+
+        alert(eventDetails);
+
+    }
+  });
+  calendar.render();
+});
+
+
+  $(document).ready(function() {
+    $('#add-event-btn').on('click', function() {
+      $('#event-form').show();
+    });
+
+    $('#save-event-btn').on('click', function() {
+      var title = $('#event-title').val();
+      var start = $('#event-start').val();
+      var end = $('#event-end').val();
+      var place = $('#event-place').val();
+      var author = $('#event-author').val();
+
+      $.ajax({
+        url: 'save-event.php',
+        type: 'POST',
+        data: {
+          title: title,
+          start: start,
+          end: end,
+          place: place,
+          author: author
+        },
+        success: function(response) {
+        console.log(response);
+
+        // Check the response for success and show alert
+        if (response.trim() === "Event saved successfully") {
+            alert('Event added successfully!');
+        } else {
+            alert('Error adding event. Please try again.');
+        }
+
+        // Handle the response (if needed)
+    },
+    error: function(error) {
+        console.error(error);
+    }
+      });
+
+      // Hide the form after saving
+      $('#event-form').hide();
+    });
+
+    $('#close-event-btn').on('click', function() {
+        // Hide the form when the close button is clicked
+        $('#event-form').hide();
+    });
+  });
+</script>
+
+
+
     
 </head>
 <body>
@@ -62,7 +163,7 @@ $conn->close();
 
 <div id="sidebar" class="sidebar">
         <div class="logo">
-            <img src="#" alt="">
+            <img src="../admin/images/logo2.png" alt="">
 
         </div>
             <ul class="menu">
@@ -74,14 +175,6 @@ $conn->close();
                     </a>
                 </li>
 
-
-                
-                <li >
-                    <a href="pensionhistory.php" >
-                    <i class="ri-history-line"></i>
-                        <span>Pension History</span>
-                    </a>
-                </li>
 
                 
 
@@ -177,13 +270,53 @@ $conn->close();
 
         <div class="body--wrapper">
 
-                <h1>Service Announcements</h1>
+                <h1>Dashboard</h1>
+
+                <!-- Slider container -->
+                <div class="slider" width="100%" height="200px">
 
 
-                <div class="service-container">
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <div class="slide">
+                            <img src="<?php echo $row['image_url']; ?>" alt="<?php echo $row['caption']; ?>" />
+                        </div>
+                    <?php endwhile; ?>
+                        
+                <!-- Control buttons -->
+                <button class="btn btn-next"> > </button>
+                <button class="btn btn-prev">
+                    < </button>
+
+</div>
+
+
+
+                 <!-- Calendar -->
+
+
+
+                <div class="calender-container">
+
+
+                <div id="calendar"></div>   
+                </div>
+
+
+                <!-- Calendar -->
+                                
+
+                <!-- Services -->
+
+                        <h2>Services</h2>
+
+
+
+                        <div class="service-container">
+
+                                            
                         <?php
                         // Iterate through the fetched services
-                        while ($row = $result->fetch_assoc()) {
+                        while ($row = $serviceresult->fetch_assoc()) {
                             $serviceId = $row['service_id'];
                             $serviceTitle = $row['Service_Title'];
                             $description = $row['Description'];
@@ -206,15 +339,7 @@ $conn->close();
                         ?>
 
 
-
-
-
-
-
-
-
-               
-            
+        
 
 
 
@@ -252,12 +377,69 @@ $conn->close();
                 });
                 }
 
+</script>
+
+
+<script>
+
+"use strict";
+// Select all slides
+const slides = document.querySelectorAll(".slide");
+
+// loop through slides and set each slides translateX
+slides.forEach((slide, indx) => {
+  slide.style.transform = `translateX(${indx * 100}%)`;
+});
+
+// select next slide button
+const nextSlide = document.querySelector(".btn-next");
+
+// current slide counter
+let curSlide = 0;
+// maximum number of slides
+let maxSlide = slides.length - 1;
+
+// add event listener and navigation functionality
+nextSlide.addEventListener("click", function () {
+  // check if current slide is the last and reset current slide
+  if (curSlide === maxSlide) {
+    curSlide = 0;
+  } else {
+    curSlide++;
+  }
+
+  //   move slide by -100%
+  slides.forEach((slide, indx) => {
+    slide.style.transform = `translateX(${100 * (indx - curSlide)}%)`;
+  });
+});
+
+// select next slide button
+const prevSlide = document.querySelector(".btn-prev");
+
+// add event listener and navigation functionality
+prevSlide.addEventListener("click", function () {
+  // check if current slide is the first and reset current slide to last
+  if (curSlide === 0) {
+    curSlide = maxSlide;
+  } else {
+    curSlide--;
+  }
+
+  //   move slide by 100%
+  slides.forEach((slide, indx) => {
+    slide.style.transform = `translateX(${100 * (indx - curSlide)}%)`;
+  });
+});
 
 
 
 
-                
+
+</script>
 
 
-    </script>
+
+
+
 </html>

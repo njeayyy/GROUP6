@@ -14,9 +14,8 @@
     --clr-text-lessopacity: #62645B;
 
     --clr-nav-bar-color: white;
-    --clr-background-color: rgb(118, 39, 80);
-
-    --clr-primary-color: rgb(118, 39, 80);
+    --clr-background-color: #2a48b3;
+    --clr-primary-color: #3559E0;
     --clr-button-color: #6C70DC;
     
     --clr-light: #FFF;
@@ -47,8 +46,6 @@ body {
     line-height: 1.5;
 
 
-    height: 100vh;
-
 
 
 
@@ -66,7 +63,7 @@ width: 300px;
 height: 100vh;
 overflow: hidden;
 transition: all 0.5s ease;
-background: white;
+background: var(--clr-background-color);
 padding-bottom: 60px;
 
 box-shadow: 0px 12px 16px 0px rgba(16, 24, 40, 0.08);
@@ -98,7 +95,9 @@ transition: 0.5s;
     }
     
     .logo img {
-    width:150px;
+    width:200px;
+    height: 200px;
+    
     
     }
     
@@ -115,10 +114,12 @@ transition: 0.5s;
     height: 88%;
     position: relative;
     padding: 0;
+
     }
     
     
     .menu a {
+        color: white;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -126,6 +127,7 @@ transition: 0.5s;
     }
     
     .menu button {
+
     padding: 0;
     outline: none;
     border: none;
@@ -145,13 +147,14 @@ transition: 0.5s;
     
     .menu i {
     
-        color: var(--clr-text);
+    color: var(--clr-text);
     font-size: 24px;
+    color: white;
     
     }
     
     .menu span {
-        color: var(--clr-text);
+    color: white;
     font-size: 1rem;
     font-weight: var(--fw-medium);
     } 
@@ -181,12 +184,7 @@ transition: 0.5s;
     
     }
     
-    .menu li:hover, .active  {
-        background-color: var(--clr-primary-color);
-
-    
-    }
-    
+  
     
     
     li a i  {
@@ -222,7 +220,7 @@ transition: 0.5s;
     }
     
     .dropdown-container a {
-    color: var(--clr-text);
+    color: white;
     font-size: 1rem;
     font-weight: var(--fw-medium);
     transition: all 0.5s ease-in-out;
@@ -242,18 +240,8 @@ transition: 0.5s;
         
         }
         
-        li:hover a i  {
-            color: var(--clr-light);
-        }
-        
-        
-     
-        
-        
-        li:hover a span  {
-            color: var(--clr-light);
-        }
-        
+    
+
         
 
     
@@ -269,19 +257,7 @@ transition: 0.5s;
     
     }
     
-    li:hover button i  {
-        color: var(--clr-light);
-    }
-    
-    
  
-    
-    
-    li:hover button span  {
-        color: var(--clr-light);
-    }
-
-
      
 
     .dropdown-container a:hover {
@@ -316,13 +292,15 @@ transition: 0.5s;
 
     .main--content {
         width: 100%;
-        height: 100vh;
+   
+        background-color: 	#F0F0F0;
     }
- 
+
 
     .header--wrapper {
-        background-color: var(--clr-primary-color);
+        background-color: white;
         padding: 16px 40px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
         position: relative;
       
@@ -363,18 +341,18 @@ transition: 0.5s;
 
     .profile-name p {
         margin: 0;
-        color: white;
+        color: var(--clr-text);
     }
 
 
     .profile-name span {
         margin: 0;
-        color: white;
+        color: var(--clr-text);
     }
 
 
     .profile i {
-        color: var(--clr-light);
+        color: var(--clr-text);
         font-size: 24px;
     }
 
@@ -440,6 +418,8 @@ transition: 0.5s;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap:24px;
+
+        margin-bottom: 48px;
     }
 
 
@@ -478,6 +458,110 @@ transition: 0.5s;
             font-size: 24px;
             font-weight: var(--fw-semibold);
     }
+
+
+    
+    hr {
+     
+        outline: none;
+        border: none;
+        border: 1px solid #ccc;
+        
+     }
+ 
+     .calender-container {
+         margin-top: 48px;
+         background-color: white;
+         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+         border-radius: 4px;
+         padding: 16px;
+     }
+ 
+    
+     .calender-container button {
+         background-color: var(--clr-button-color);
+         padding: 8px 16px;
+         border: none;
+         outline: none;
+         border-radius: 4px;
+ 
+         color: white;
+ 
+         margin-bottom: 24px;
+     }
+ 
+     #calendar {
+        
+         margin: 0 auto;
+     
+     }
+
+
+
+     
+
+.modal-container {
+    display: none;
+     position: fixed; /* Stay in place */
+     z-index: 1; /* Sit on top */
+     padding-top: 100px; /* Location of the box */
+     left: 0;
+     top: 0;
+     width: 100%; /* Full width */
+     height: 100%; /* Full height */
+     overflow: auto; /* Enable scroll if needed */
+     background-color: rgb(0,0,0); /* Fallback color */
+     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+ 
+     transition: 0.2s all ease-in-out;
+ }
+
+
+ .event-form {
+    background-color: white;
+    width: 475px;
+    padding: 24px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-40%, -50%);
+ }
+
+
+ .event-form input {
+    padding: 8px 16px;
+ }
+ .event-form .save-event-btn {
+    background-color: var(--clr-button-color);
+    padding: 8px 16px;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+
+    color: white;
+
+
+}
+
+.event-form .close-event-btn {
+    background-color: var(--clr-text-lessopacity);
+    padding: 8px 16px;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+
+    color: white;
+
+}
+
+ 
+  
 
 
     /* DASHBOARD CSS */

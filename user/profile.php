@@ -101,7 +101,7 @@
 
 <div id="sidebar" class="sidebar">
         <div class="logo">
-            <img src="#" alt="">
+        <img src="../admin/images/logo2.png" alt="">
 
         </div>
             <ul class="menu">
@@ -114,14 +114,7 @@
                 </li>
 
 
-                
-                <li >
-                    <a href="pensionhistory.php" >
-                    <i class="ri-history-line"></i>
-                        <span>Pension History</span>
-                    </a>
-                </li>
-
+            
                 
 
                 

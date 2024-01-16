@@ -20,8 +20,6 @@ $result = $conn->query($sql);
 $seniorDetails = $result->fetch_assoc();
 
 
-$sql_pensions = "SELECT * FROM pension_history WHERE Senior_ID = $user_id";
-$result_pensions = $conn->query($sql_pensions);
 
 
 
@@ -73,20 +71,22 @@ $conn->close();
 
                 
             
-                <li>
-                    <button class="dropdown-btn">
-                    <i class="ri-building-4-line"></i>
-                        <span>Barangays</span>
-                        <i id="chevron-down" class='bx bxs-chevron-down'></i>
-                    </button>
-
-                    <div class="dropdown-container">
-                            <a href="#">List of Barangays</a>
-                          
-
-                    </div>
-
+                <li >
+                    <a href="events.php" >
+                    <i class="ri-calendar-event-fill"></i>
+                        <span>Events</span>
+                    </a>
                 </li>
+
+                <li >
+                    <a href="announcements.php" >
+                    <i class="ri-megaphone-line"></i>
+                        <span>Announcements</span>
+                    </a>
+                </li>
+
+
+
 
                 <li>    
                     <button class="dropdown-btn">
@@ -126,12 +126,6 @@ $conn->close();
                 </li>
 
 
-                <li >
-                    <a href="claim-pension.php" >
-                    <i class="ri-account-pin-box-line"></i>
-                        <span>Pension</span>
-                    </a>
-                </li>
 
 
 
@@ -191,21 +185,6 @@ $conn->close();
                           <p>Contact Address:  <span><?php echo $seniorDetails['Contact_Address']; ?></span>    </p>
 
 
-                    </div>
-
-                    <h1 class="Seniorh1">Pension History</h1>
-                    <div class="pension-container">
-                        <?php
-                        // Loop through each pension record and display the details
-                        while ($pensionDetails = $result_pensions->fetch_assoc()) {
-                            echo "<p>Pension ID: <span>{$pensionDetails['pension_id']}</span></p>";
-                   
-            $formattedClaimDate = date('F j, Y', strtotime($pensionDetails['claim_Date']));
-            echo "<p>Claim Date: <span>{$formattedClaimDate}</span></p>";
-                            echo "<p>Amount: <span>{$pensionDetails['Amount']}</span></p>";
-                            echo "<hr>"; // Add a horizontal line between pension records
-                        }
-                        ?>
                     </div>
 
 

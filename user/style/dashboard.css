@@ -14,7 +14,7 @@
     --clr-text-lessopacity: #62645B;
 
     --clr-nav-bar-color: white;
-    --clr-background-color: rgb(118, 39, 80);
+    --clr-background-color: #2a48b3;
 
     --clr-primary-color: rgb(118, 39, 80);
     --clr-button-color: #6C70DC;
@@ -47,7 +47,6 @@ body {
     line-height: 1.5;
 
 
-    height: 100vh;
 
 
 
@@ -66,7 +65,7 @@ width: 300px;
 height: 100vh;
 overflow: hidden;
 transition: all 0.5s ease;
-background: white;
+background: var(--clr-background-color);
 padding-bottom: 60px;
 
 box-shadow: 0px 12px 16px 0px rgba(16, 24, 40, 0.08);
@@ -86,6 +85,7 @@ transition: 0.5s;
 } 
 */
 
+
 .logo {
     height: 100px;
     padding: 32px 24px;
@@ -98,7 +98,9 @@ transition: 0.5s;
     }
     
     .logo img {
-    width:150px;
+    width:200px;
+    height: 200px;
+    
     
     }
     
@@ -115,10 +117,12 @@ transition: 0.5s;
     height: 88%;
     position: relative;
     padding: 0;
+
     }
     
     
     .menu a {
+        color: white;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -126,6 +130,7 @@ transition: 0.5s;
     }
     
     .menu button {
+
     padding: 0;
     outline: none;
     border: none;
@@ -145,13 +150,14 @@ transition: 0.5s;
     
     .menu i {
     
-        color: var(--clr-text);
+    color: var(--clr-text);
     font-size: 24px;
+    color: white;
     
     }
     
     .menu span {
-        color: var(--clr-text);
+    color: white;
     font-size: 1rem;
     font-weight: var(--fw-medium);
     } 
@@ -181,12 +187,7 @@ transition: 0.5s;
     
     }
     
-    .menu li:hover, .active  {
-        background-color: var(--clr-primary-color);
-
-    
-    }
-    
+  
     
     
     li a i  {
@@ -222,7 +223,7 @@ transition: 0.5s;
     }
     
     .dropdown-container a {
-    color: var(--clr-text);
+    color: white;
     font-size: 1rem;
     font-weight: var(--fw-medium);
     transition: all 0.5s ease-in-out;
@@ -242,18 +243,8 @@ transition: 0.5s;
         
         }
         
-        li:hover a i  {
-            color: var(--clr-light);
-        }
-        
-        
-     
-        
-        
-        li:hover a span  {
-            color: var(--clr-light);
-        }
-        
+    
+
         
 
     
@@ -269,19 +260,7 @@ transition: 0.5s;
     
     }
     
-    li:hover button i  {
-        color: var(--clr-light);
-    }
-    
-    
  
-    
-    
-    li:hover button span  {
-        color: var(--clr-light);
-    }
-
-
      
 
     .dropdown-container a:hover {
@@ -316,13 +295,15 @@ transition: 0.5s;
 
     .main--content {
         width: 100%;
-        height: 100vh;
+   
+        background-color: 	#F0F0F0;
     }
- 
+
 
     .header--wrapper {
-        background-color: var(--clr-primary-color);
+        background-color: white;
         padding: 16px 40px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
         position: relative;
       
@@ -332,6 +313,7 @@ transition: 0.5s;
         justify-content: space-between;
         
     }
+
 
 
     .ri-menu-2-fill {
@@ -361,22 +343,24 @@ transition: 0.5s;
     }
 
 
+
     .profile-name p {
         margin: 0;
-        color: white;
+        color: var(--clr-text);
     }
 
 
     .profile-name span {
         margin: 0;
-        color: white;
+        color: var(--clr-text);
     }
 
 
     .profile i {
-        color: var(--clr-light);
+        color: var(--clr-text);
         font-size: 24px;
     }
+
 
 
 
@@ -393,6 +377,7 @@ transition: 0.5s;
         position: absolute;
         right: 1%;
         bottom: -230%;
+        z-index: 1;
     }
 
 
@@ -436,16 +421,84 @@ transition: 0.5s;
 /* DASHBOARD CSS */
 
 
+h1 {
+    font-size: 24px;
+    font-weight: var(--fw-semibold);
+}
 
 
+h2 {
+    font-size: 24px;
+    font-weight: var(--fw-semibold);
+    margin-top: 48px;
+}
+
+
+.calender-container {
+    margin-top: 48px;
+}
+
+
+
+
+
+
+
+.slider {
+    width: 100%;
+    height: 350px;
+    position: relative;
+    overflow: hidden; /* <===  */
+    border-radius: 15px;
+  }
+  
+  .slide {
+    width: 100%;
+
+    height: 350px;
+    position: absolute;
+    transition: all 0.5s;
+  }
+  
+  .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .btn {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    border: none;
+    border-radius: 50%;
+    z-index: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    font-size: 18px;
+  }
+  .btn:active {
+    transform: scale(1.1);
+  }
+  .btn-prev {
+    top: 45%;
+    left: 2%;
+  }
+  
+  .btn-next {
+    top: 45%;
+    right: 2%;
+  }
+
+
+
+  
 .service-container {
-   
- 
-    padding: 12px;
-
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
+    margin-top: 24px;
 
 }
 
@@ -453,12 +506,31 @@ transition: 0.5s;
 .service-inside-container {
     background-color: white;
     padding: 16px;
+    border-radius: 15px;
 
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 
 
+
+.calender-container {
+    margin-top: 48px;
+    background-color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 4px;
+    padding: 16px;
+}
+
+
+
+.calendar {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 10px;
+
+  
+  }
 
 /* EDIT PROFILE */
     

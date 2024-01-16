@@ -19,33 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit(); // Stop execution if passwords don't match
     }
 
-    // Handle file upload
-    if (isset($_FILES['idPicture']) && $_FILES['idPicture']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = '../admin/SeniorID-verification/';
-        $uploadFile = $uploadDir . basename($_FILES['idPicture']['name']);
-
-        // Move the uploaded file to the desired location
-        if (move_uploaded_file($_FILES['idPicture']['tmp_name'], $uploadFile)) {
-            // File upload successful, you can use $uploadFile or other relevant information
-            // ...
-        } else {
-            echo "<script>alert('Error uploading ID picture.');</script>";
-            exit();
-        }
-    } else {
-        echo "<script>alert('ID picture upload failed.');</script>";
-        exit();
-    }
-
+   
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    $idPicture = $uploadFile;
 
-    $stmt = $conn->prepare("INSERT INTO users (Email, Password, Last_Name, First_Name, Role, Status, ID_Picture) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssss", $username, $hashedPassword, $lastName, $firstName, $role, $status, $idPicture);
+
+    $stmt = $conn->prepare("INSERT INTO users (Email, Password, Last_Name, First_Name, Role, ) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $username, $hashedPassword, $lastName, $firstName, $role);
     
-    // Set the value of $status to 'Not Verified'
-    $status = 'Not Verified';
+
 
     // Set the value of $role to 'User'
     $role = 'User';
@@ -116,11 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                   <label for="confirmPassword">Re-enter Password:</label>
                   <input type="password" id="confirmPassword" name="confirmPassword" required>
                 </div>
-
-                <div class="form-group">
-      <label for="idPicture">Upload ID Picture:</label>
-      <input type="file" id="idPicture" name="idPicture" accept="image/*" required>
-  </div>
 
 
 

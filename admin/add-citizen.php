@@ -156,7 +156,7 @@ $randomPassword = generateRandomPassword(12);
 
 <div id="sidebar" class="sidebar">
         <div class="logo">
-            <img src="#" alt="">
+        <img src="images/logo2.png" alt="">
 
         </div>
             <ul class="menu">
@@ -170,20 +170,22 @@ $randomPassword = generateRandomPassword(12);
 
                 
             
-                <li>
-                    <button class="dropdown-btn">
-                    <i class="ri-building-4-line"></i>
-                        <span>Barangays</span>
-                        <i id="chevron-down" class='bx bxs-chevron-down'></i>
-                    </button>
-
-                    <div class="dropdown-container">
-                            <a href="#">List of Barangays</a>
-                          
-
-                    </div>
-
+                <li >
+                    <a href="events.php" >
+                    <i class="ri-calendar-event-fill"></i>
+                        <span>Events</span>
+                    </a>
                 </li>
+
+                <li >
+                    <a href="announcements.php" >
+                    <i class="ri-megaphone-line"></i>
+                        <span>Announcements</span>
+                    </a>
+                </li>
+
+
+
 
                 <li>    
                     <button class="dropdown-btn">
@@ -222,35 +224,8 @@ $randomPassword = generateRandomPassword(12);
                 </li>
 
 
-                
-                <li >
-                    <a href="claim-pension.php" >
-                    <i class="ri-account-pin-box-line"></i>
-                        <span>Pension</span>
-                    </a>
-                </li>
-
-
-
-                
-
-                <li>    
-                    <button class="dropdown-btn">
-                    <i class="ri-service-line"></i>
-                        <span>Services</span>
-                        <i id="chevron-down" class='bx bxs-chevron-down'></i>
-                    </button>
-
-                    <div class="dropdown-container">
-                            <a href="services-list.php">List of Services</a>
-                            <a href="add-services.php">Add Services </a>
-                          
-
-                    </div>
-
-                </li>
-
-                
+           
+          
 
 
 

@@ -26,25 +26,24 @@ $fullName = $lastname . ' ' . $firstName;
 // Fetch counts from each table
 $userCountQuery = "SELECT COUNT(*) AS user_count FROM users";
 $serviceCountQuery = "SELECT COUNT(*) AS service_count FROM services";
-
-$pensionCountQuery = "SELECT COUNT(*) AS pension_count FROM pension_history";
+// Modify the event query to count only upcoming events
+$eventCountQuery = "SELECT COUNT(*) AS events_count FROM events WHERE start_time > NOW()";
 
 // Execute queries
 $userResult = mysqli_query($conn, $userCountQuery);
 $serviceResult = mysqli_query($conn, $serviceCountQuery);
 
-$pensionResult = mysqli_query($conn, $pensionCountQuery);
+$eventResult = mysqli_query($conn, $eventCountQuery);
 
 // Check for query errors
-if (!$userResult || !$serviceResult ||  !$pensionResult) {
+if (!$userResult || !$serviceResult ||  !$eventResult) {
     die("Error in queries: " . mysqli_error($conn));
 }
 
 // Fetch counts from results
 $userCount = mysqli_fetch_assoc($userResult)['user_count'];
 $serviceCount = mysqli_fetch_assoc($serviceResult)['service_count'];
-
-$pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
+$eventCount = mysqli_fetch_assoc($eventResult)['events_count'];
 
 
 
@@ -72,7 +71,100 @@ $pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('calendar');
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    events: {
+      url: 'get-events.php',
+      method: 'POST',
+      extraParams: {
+        custom_param: 'No events'
+      },
+      failure: function() {
+        alert('There was an error while fetching events!');
+      },
+      color: 'yellow',   // a non-ajax option
+      textColor: 'black' // a non-ajax option   
+    },
+    eventClick: function(info) {
+        var eventDetails = "Title: " + info.event.title + "\n";
+
+        if (info.event.start) {
+            eventDetails += "Start: " + info.event.start.toLocaleString() + "\n";
+        }
+
+        if (info.event.end) {
+            eventDetails += "End: " + info.event.end.toLocaleString() + "\n";
+        }
+
+        eventDetails += "Place: " + (info.event.extendedProps.place || 'N/A') + "\n";
+        eventDetails += "Author: " + (info.event.extendedProps.author || 'N/A');
+
+        alert(eventDetails);
+
+    }
+  });
+  calendar.render();
+});
+
+
+  $(document).ready(function() {
+    $('#add-event-btn').on('click', function() {
+      $('#event-form').show();
+    });
+
+    $('#save-event-btn').on('click', function() {
+      var title = $('#event-title').val();
+      var start = $('#event-start').val();
+      var end = $('#event-end').val();
+      var place = $('#event-place').val();
+      var author = $('#event-author').val();
+
+      $.ajax({
+        url: 'save-event.php',
+        type: 'POST',
+        data: {
+          title: title,
+          start: start,
+          end: end,
+          place: place,
+          author: author
+        },
+        success: function(response) {
+        console.log(response);
+
+        // Check the response for success and show alert
+        if (response.trim() === "Event saved successfully") {
+            alert('Event added successfully!');
+        } else {
+            alert('Error adding event. Please try again.');
+        }
+
+        // Handle the response (if needed)
+    },
+    error: function(error) {
+        console.error(error);
+    }
+      });
+
+      // Hide the form after saving
+      $('#event-form').hide();
+    });
+
+    $('#close-event-btn').on('click', function() {
+        // Hide the form when the close button is clicked
+        $('#event-form').hide();
+    });
+  });
+</script>
+
 </head>
 <body>
 
@@ -80,7 +172,7 @@ $pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
 
     <div id="sidebar" class="sidebar">
         <div class="logo">
-            <img src="#" alt="">
+            <img src="images/logo2.png" alt="">
 
         </div>
             <ul class="menu">
@@ -92,22 +184,25 @@ $pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
                     </a>
                 </li>
 
+                <li >
+                    <a href="events.php" >
+                    <i class="ri-calendar-event-fill"></i>
+                        <span>Events</span>
+                    </a>
+                </li>
+
+                <li >
+                    <a href="announcements.php" >
+                    <i class="ri-megaphone-line"></i>
+                        <span>Announcements</span>
+                    </a>
+                </li>
+
+
+
                 
             
-                <li>
-                    <button class="dropdown-btn">
-                    <i class="ri-building-4-line"></i>
-                        <span>Barangays</span>
-                        <i id="chevron-down" class='bx bxs-chevron-down'></i>
-                    </button>
-
-                    <div class="dropdown-container">
-                            <a href="#">List of Barangays</a>
-                          
-
-                    </div>
-
-                </li>
+                
 
                 <li>    
                     <button class="dropdown-btn">
@@ -144,13 +239,7 @@ $pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
 
                 </li>
 
-                <li >
-                    <a href="claim-pension.php" >
-                    <i class="ri-account-pin-box-line"></i>
-                        <span>Pension</span>
-                    </a>
-                </li>
-
+             
                 
               
 
@@ -275,9 +364,9 @@ $pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
                             <div class="info-container">
 
                             <p class="info-title">
-                                Total Pensions ID
+                                Upcoming Events
                             </p>
-                            <p class="info-maintext"><?php echo $pensionCount; ?></p>
+                            <p class="info-maintext"><?php echo $eventCount; ?></p>
 
                             <a href="" class="info-link">
                                 View All
@@ -295,6 +384,18 @@ $pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
                 </div>
 
 
+                <hr>
+
+                <div class="calender-container">
+
+                        
+                        <button id="add-event-btn">Add Event</button>
+
+
+                        <div id="calendar"></div>   
+                </div>
+
+
 
 
 
@@ -308,8 +409,45 @@ $pensionCount = mysqli_fetch_assoc($pensionResult)['pension_count'];
 
 </div>
 
+
+
+<div class="modal-container" id="event-form" style="display: none;" >
+
+            <div class="event-form">
+                <h2>Add Event</h2>
+                <label for="event-title">Title:</label>
+                <input type="text" id="event-title" required>
+
+
+
+                <label for="event-start">Start Time:</label>
+                <input type="datetime-local" id="event-start" required min="<?php echo date('Y-m-d\TH:i'); ?>">
+
+                <label for="event-end">End Time:</label>
+                <input type="datetime-local" id="event-end" required min="<?php echo date('Y-m-d\TH:i'); ?>">
+
+
+                <label for="event-place">Place:</label>
+                <input type="text" id="event-place" required>
+
+                <label for="event-author">Author:</label>
+                <input type="text" id="event-author" required>
+
+                <button id="save-event-btn" class="save-event-btn">Save Event</button>
+                <button id="close-event-btn" class="close-event-btn">Close</button>
+            </div>
+
+
+
+</div>
+
+
+
+
    
 </body>
+
+
 
 
 <script> 

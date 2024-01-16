@@ -39,41 +39,10 @@ $fullName = $lastname . ' ' . $firstName;
 // Get the total number of members
 $totalMembers = mysqli_num_rows($result);
 
-// Get the count of active members
-$activeMembersQuery = "SELECT COUNT(*) AS activeCount FROM users WHERE Status = 'Verified'";
-$activeMembersResult = mysqli_query($conn, $activeMembersQuery);
-
-// Check for errors in the active members query execution
-if (!$activeMembersResult) {
-    die("Active members query failed: " . mysqli_error($conn));
-}
-
-$activeCountRow = mysqli_fetch_assoc($activeMembersResult);
-$activeMembers = $activeCountRow['activeCount'];
 
 
 
 
-$verifiedMembersQuery = "SELECT * FROM users WHERE Status = 'Verified'";
-$verifiedMembersResult = mysqli_query($conn, $verifiedMembersQuery);
-
-// Check for errors in the verified members query execution
-if (!$verifiedMembersResult) {
-    die("Verified members query failed: " . mysqli_error($conn));
-}
-
-
-// Get the count of not verified members
-$notVerifiedMembersQuery = "SELECT COUNT(*) AS notVerifiedCount FROM users WHERE Status = 'Not Verified'";
-$notVerifiedMembersResult = mysqli_query($conn, $notVerifiedMembersQuery);
-
-// Check for errors in the not verified members query execution
-if (!$notVerifiedMembersResult) {
-    die("Not verified members query failed: " . mysqli_error($conn));
-}
-
-$notVerifiedCountRow = mysqli_fetch_assoc($notVerifiedMembersResult);
-$notVerifiedMembers = $notVerifiedCountRow['notVerifiedCount'];
 ?>
 
 
@@ -206,27 +175,7 @@ $notVerifiedMembers = $notVerifiedCountRow['notVerifiedCount'];
     });
 </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var verifyButtons = document.querySelectorAll('.verify-button');
 
-        verifyButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
-                var userId = button.getAttribute('data-user-id');
-
-                // You can use AJAX to send a request to your server to update the user status
-                // Example using jQuery:
-                // $.post('verify_user.php', { user_id: userId }, function (data) {
-                //     // Handle the response from the server
-                //     console.log(data);
-                // });
-
-                // For simplicity, you can redirect to a page that handles the verification
-                window.location.href = 'verify_user.php?user_id=' + userId;
-            });
-        });
-    });
-</script>
 
         
 </head>
@@ -236,7 +185,7 @@ $notVerifiedMembers = $notVerifiedCountRow['notVerifiedCount'];
 
 <div id="sidebar" class="sidebar">
         <div class="logo">
-            <img src="#" alt="">
+        <img src="images/logo2.png" alt="">
 
         </div>
             <ul class="menu">
@@ -248,22 +197,27 @@ $notVerifiedMembers = $notVerifiedCountRow['notVerifiedCount'];
                     </a>
                 </li>
 
+
+                <li >
+                    <a href="events.php" >
+                    <i class="ri-calendar-event-fill"></i>
+                        <span>Events</span>
+                    </a>
+                </li>
+
+                <li >
+                    <a href="announcements.php" >
+                    <i class="ri-megaphone-line"></i>
+                        <span>Announcements</span>
+                    </a>
+                </li>
+
+
+
+
                 
             
-                <li>
-                    <button class="dropdown-btn">
-                    <i class="ri-building-4-line"></i>
-                        <span>Barangays</span>
-                        <i id="chevron-down" class='bx bxs-chevron-down'></i>
-                    </button>
-
-                    <div class="dropdown-container">
-                            <a href="#">List of Barangays</a>
-                          
-
-                    </div>
-
-                </li>
+              
 
                 <li>    
                     <button class="dropdown-btn">
@@ -302,14 +256,6 @@ $notVerifiedMembers = $notVerifiedCountRow['notVerifiedCount'];
 
                 </li>
 
-
-                
-                <li >
-                    <a href="claim-pension.php" >
-                    <i class="ri-account-pin-box-line"></i>
-                        <span>Pension</span>
-                    </a>
-                </li>
 
                 
 
@@ -388,7 +334,7 @@ $notVerifiedMembers = $notVerifiedCountRow['notVerifiedCount'];
 
                     <div class="table-title-info">
                             <p>Total Members: <span><?php echo $totalMembers; ?></span></p>
-                            <p>Current Verified: <span><?php echo $activeMembers; ?></span></p>
+                       
                     </div>
 
 
@@ -408,7 +354,7 @@ $notVerifiedMembers = $notVerifiedCountRow['notVerifiedCount'];
                                 <th>Full Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                <th>Status</th>
+                        
                                 <th>Action</th>
                                
                         
@@ -426,14 +372,14 @@ $notVerifiedMembers = $notVerifiedCountRow['notVerifiedCount'];
 
                             
 
-    if ($verifiedMembersResult && mysqli_num_rows($verifiedMembersResult) > 0) {
-        while ($row = mysqli_fetch_assoc($verifiedMembersResult)) {
+    if ($result)  {
+        while ($row = mysqli_fetch_assoc($result )) {
             echo "<tr>";
             echo "<td>{$row['user_id']}</td>";
             echo "<td>{$row['First_Name']} {$row['Last_Name']}</td>";
             echo "<td>{$row['Email']}</td>";
             echo "<td>{$row['Role']}</td>";
-            echo "<td>{$row['Status']}</td>";
+         
             echo "<td class='button-action'>
                     <a href='citizenview.php?user_id={$row['user_id']}' class='view-button'>View <i class='bx bxs-show'></i></a>
                     <a href='citizen-edit.php?user_id={$row['user_id']}' class='edit-button'>Edit <i class='bx bxs-message-square-edit'></i></a>
@@ -461,65 +407,13 @@ $notVerifiedMembers = $notVerifiedCountRow['notVerifiedCount'];
 
 
 
-                </div>
+  
 
 
 
-                <div class="table-title">
-                    <p>Not Verified Members</p>
-                    <div class="table-title-info">
-                        <p>Total Not Verified: <span><?php echo $notVerifiedMembers; ?></span></p>
-                    </div>
-                </div>
+              
 
-                <div class="rectangle">
-                    <table id="notVerifiedTable" class="display" id="myTable">
-                        <thead>
-                            <tr>
-                                <th>User ID</th>
-                                <th>Full Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Uploaded ID</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $notVerifiedQuery = "SELECT * FROM users WHERE Status = 'Not Verified'";
-                            $notVerifiedResult = mysqli_query($conn, $notVerifiedQuery);
-
-                            if ($notVerifiedResult && mysqli_num_rows($notVerifiedResult) > 0) {
-                                while ($row = mysqli_fetch_assoc($notVerifiedResult)) {
-                                    echo "<tr>";
-                                    echo "<td>{$row['user_id']}</td>";
-                                    echo "<td>{$row['First_Name']} {$row['Last_Name']}</td>";
-                                    echo "<td>{$row['Email']}</td>";
-                                    echo "<td>{$row['Role']}</td>";
-                                          // Display the ID_Picture as an image
-                                    echo "<td><a href='{$row['ID_Picture']}' target='_blank'>View ID</a></td>";
-                                    echo "<td>{$row['Status']}</td>";
-                                    
-                              
-
-                                    echo "<td class='button-action'>
-                                    
-                                    <button class='verify-button' data-user-id='{$row['user_id']}'>Verify<i class='ri-verified-badge-line'></i> </button>
-                                 </td>";
-                           
-                                    echo "</tr>";
-                                }
-                            } else {
-                                echo "<tr><td colspan='7'>No, not-verified members found</td></tr>";
-                            }
-                            ?>
-                        </tbody>
-
-                    </table>
-                </div>
-
-
+    
 
   
 
