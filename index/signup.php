@@ -19,18 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit(); // Stop execution if passwords don't match
     }
 
-   
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-
-
-    $stmt = $conn->prepare("INSERT INTO users (Email, Password, Last_Name, First_Name, Role, ) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $username, $hashedPassword, $lastName, $firstName, $role);
-    
-
 
     // Set the value of $role to 'User'
     $role = 'User';
+
+    $stmt = $conn->prepare("INSERT INTO users (Email, Password, Last_Name, First_Name, Role) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $username, $hashedPassword, $lastName, $firstName, $role);
 
     // Check if the statement is executed successfully
     if ($stmt->execute()) {
