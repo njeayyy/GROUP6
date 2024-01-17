@@ -42,10 +42,9 @@ body {
 }
 
 header{
-    position: fixed;
+    position: sticky;
     right: 0;
     top: 0;
-    z-index: 1000;
     width: 100%;
     display: flex;
     align-items: center;
@@ -64,7 +63,7 @@ h3 {
 h3 a {
 
     text-decoration: none;
-    color: #fff;
+    color: black;
 
 
 }
@@ -86,7 +85,7 @@ li {
 
 li a {
     text-decoration: none;
-    color: #fff;
+    color: black;
     font-weight: 500;
 
  
@@ -106,8 +105,10 @@ li a {
     transition: background-color 0.3s ease-in-out; 
 }
 
+
+
 .site-header.scrolled {
-    background-color: #000000;
+    background-color: var(--clr-light);
     
 
     box-shadow: 0 1px 6px 0 rgb(32 33 36 / 10%);
@@ -115,46 +116,62 @@ li a {
 
 
 
+
+
 .first-section {
    
-    height: 100vh;
-    padding: 40px 200px;
-    background-color: rgb(118, 39, 80);
+    height: 80vh;
+    margin:  33px 9%;
+   
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
-
-    gap: 80px;
 
 }
 
 
-.first-section img {
-    height: 410px;
-    width: 410px;
+.image-content {
+   
+    width: 70%;
+    height: 100%;
 }
 
 
-.content-text h1, p {
-    margin: 0;
+.image-content img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
 }
+
+
+
 
 .content-text {
+    height: 100%;
+    background-color: #222D4D;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    align-items: start;
+    justify-content: center;
+
+    padding-left: 56px;
+  
 }
+
+
 
 
 .content-text h1 {
     font-size: 48px;
-    font-weight: 800;
+    font-weight: 600;
     color: #ffffff;
 
 }
 
 
 .content-text p {
+    margin: 0;
     font-size: 20px;
     font-weight: var(--fw-regular);
     color: #ffffff;
@@ -172,75 +189,69 @@ li a {
 
 
 .content-text a {
-    text-decoration: none;
-    font-weight: 800;
-    color: #000;
-    letter-spacing: 1px;
-    line-height: 1.5;
+    margin-top: 24px;
+    border: none;
+    outline: none;
+    color: white;
 }
+
+
+
+
+
 
 
 
 .second-section {
    
-    height: 100vh;
-    padding: 40px 200px;
-    background-color: rgb(118, 39, 80);
-    display: flex;
-    align-items: center;
-
+    height: 75vh;
+    margin:  84px 9%;
 
     gap: 80px;
 
 }
 
 
-
 .heading h1{
-    font-size: 50px;
-    color: aliceblue;
-    margin-bottom: 25px;
-    position: relative;
-    font: bold;
+    font-size: 36px;
+    color: var(--clr-dark);
+
+  
+    font-weight: var(--fw-semibold);
+
+
+    
 }
-.heading h1::after{
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 4px;
-    display: block;
-    margin: 0 auto;
-    background-color: #58c77d;
-}
+
+
+
+
 .heading p{
     font-size: 18px;
     color: #050404;
     margin-bottom: 35px;
 }
+
+
+
 .container{
-    width: 90%;
+
+   
     margin: 0 auto;
-    padding: 10px 20px;
+ 
 }
 .about{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+   display: flex;
+   justify-content: space-between;
+   gap: 48px;
+  
+  
+    
 }
-.about-img{
-    flex: 1;
-    margin-right: 40px;
-    overflow: hidden;
-}
-.about-img img{
-    max-width: 100%;
-    height: 500px;
-    display: block;
-    transition: 0.5s ease;
-}
+
 .about-content{
     flex: 1;
+ 
 }
 .about-content h2{
     font-size: 23px;
@@ -251,6 +262,24 @@ li a {
     font-size: 18px;
     line-height: 1.5;
     color: #050404;
+    text-align: justify;
+}
+
+
+
+.support-content {
+    margin-top: 24px;
+
+    display: flex;
+    align-items: center;
+    gap: 48px;
+  
+}
+
+
+.check-content i {
+    margin-right: 12px;
+    color: #222D4D;
 }
 
 
@@ -259,15 +288,82 @@ li a {
 
 
 
-/*3rd-login*/
-.auth-container {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    width: 300px;
-    margin: auto;
-  }
+
+
+
+.third-section {
+    padding: 0 13.125rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+
+    height: 70vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: linear-gradient(rgba(122, 122, 122, 0.5), rgba(255,255,255,.5)), url("https://hms.harvard.edu/sites/default/files/media/850Elderly-walking-GettyImages-587506108.jpg");
+}
+
+
+.content-third {
+  
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    padding: 16px;
+
+}
+
+.content-third i {
+    color: white;
+    margin-top: 4px;
+    margin-bottom: 16px;
+   
+    font-size: 36px;
+    text-align: start;
+    text-shadow: 3px 4px 7px rgba(81,67,21,0.8);
+}
+
+.content-third p {
+    margin: 0;
+    color: white;
+    margin-bottom: 4px;
+    text-align: start;
+    text-shadow: 3px 4px 7px rgba(81,67,21,0.8);
+}
+
+
+
+
+
+
+
+
+.fourth-section {
+    padding: 6.125rem 13.125rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+ 
+    
+    gap: 24px;
+
+
+    
+}
+
+
+.content-text1{ 
+    
+    height: 80%;
+    text-align: center;
+}
+
+
+
 
   .auth-header {
     background-color: rgb(216, 116, 169);
@@ -325,60 +421,17 @@ li a {
 
 
 
-/*4th-login*/
-.second-section img {
-    height: 410px;
-    width: 410px;
-}
 
 
 .contact-container {
     background: #fff;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 600px;
     text-align: center;
 }
 
-.content-text {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
 
-
-.content-text h1 {
-    font-size: 48px;
-    font-weight: 800;
-    color: #ffffff;
-
-}
-
-
-.content-text p {
-    font-size: 20px;
-    font-weight: var(--fw-regular);
-    color: #ffffff;
-}
-
-
-
-.content-text button {
-    border: none;
-    outline: none;
-    width: 200px;
-    padding: 24px 36px;
-    border-radius: 50px;
-}
-
-
-.content-text a {
-    text-decoration: none;
-    font-weight: 800;
-    color: #000;
-    letter-spacing: 1px;
-    line-height: 1.5;
-}
 h2 {
     color: #333;
 }
@@ -419,8 +472,8 @@ input[type="submit"]:hover {
     padding: 12px 24px;
     text-decoration: none;
     font-family: 'Poppins', sans-serif;
-    border-radius: 56px;
-    background-color: white;
+  
+
     color: #000;
 
 }
