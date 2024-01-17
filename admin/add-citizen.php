@@ -43,14 +43,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contactNumber = $_POST['ContactNumber'];
     $contactAddress = $_POST['ContactAddress'];
     $address = $_POST['Address'];
-    $pension = $_POST['Pension'];
+
     $rawPassword = generateRandomPassword(12); // Use the random password function with length 12
     $hashedPassword = password_hash($rawPassword, PASSWORD_DEFAULT); // Hash the password
 
     // Insert data into the database
     // (Assuming you have a database connection and a table named 'senior_citizens')
-    $sql = "INSERT INTO users (email, first_name, last_name, dob, Contact_person, Contact_number, Contact_address,  pension, password, Status, Role) 
-            VALUES ('$email', '$firstName', '$lastName', '$dob', '$contactPerson', '$contactNumber', '$contactAddress',  '$pension', '$hashedPassword' , 'Verified', 'User')";
+    $sql = "INSERT INTO users (email, first_name, last_name, dob, Contact_person, Contact_number, Contact_address,   password, Status, Role) 
+            VALUES ('$email', '$firstName', '$lastName', '$dob', '$contactPerson', '$contactNumber', '$contactAddress', '$hashedPassword' , 'Verified', 'User')";
     if (mysqli_query($conn, $sql)) {
         // Create a PHPMailer instance
         $mail = new PHPMailer;
@@ -335,10 +335,6 @@ $randomPassword = generateRandomPassword(12);
                         <input type="text" name="Address" placeholder="Address" required >
                     </div>
 
-                    <div class="input-box">
-                        <label for="Pension">Pension: </label>
-                        <input type="text" name="Pension" placeholder="Pension" required>
-                    </div>
 
 
                     <button type="submit" class="Save-Btn">Add</button>
